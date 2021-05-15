@@ -22,11 +22,6 @@ public class AmireuxMemoryCacheTest {
     }
 
     @Test
-    void putTest() {
-        cacheStore.put("user", "{\"name\": \"admin\"}", 60 * 1000L);
-    }
-
-    @Test
     void putNullTest() {
         assertThrows(IllegalArgumentException.class,
                 () -> cacheStore.put(null, "{\"name\": \"admin\"}", 60 * 1000L));
