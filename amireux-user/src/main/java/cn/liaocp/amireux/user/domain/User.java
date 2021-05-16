@@ -39,7 +39,7 @@ public class User extends BaseDomain {
     private String phone;
 
     @Column(name = "is_enable", columnDefinition = "tinyint", length = 1, nullable = false)
-    private String enable;
+    private Boolean enable;
 
     @ManyToMany
     @JoinTable(name = "system_user_role",

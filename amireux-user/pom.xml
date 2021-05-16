@@ -20,6 +20,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+        </dependency>
+        <dependency>
             <groupId>cn.liaocp</groupId>
             <artifactId>amireux-core</artifactId>
         </dependency>

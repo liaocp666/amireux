@@ -1,5 +1,6 @@
 package cn.liaocp.amireux.core.domain;
 
+import cn.liaocp.amireux.core.util.DateTimeUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,9 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PostPersist;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -36,18 +35,23 @@ public class BaseDomain implements Serializable {
     @JsonIgnore
     private String updateUser;
 
-    /**
-     * record save data
-     */
     @PostPersist
-    private void saveData() {
-        this.createTime = Instant.now();
-        this.updateTime = Instant.now();
+    private void PostPersist() {
+        Instant now = DateTimeUtil.now();
+        this.createTime = now;
+        this.updateTime = now;
         // TODO Assign values to createUser and updateUser
     }
 
+    @PostUpdate
     private void updateData() {
-        this.updateTime = Instant.now();
+        this.updateTime = DateTimeUtil.now();
+        // TODO Assign values and updateUser
+    }
+
+    @PostRemove
+    private void preRemove() {
+        this.updateTime = DateTimeUtil.now();
         // TODO Assign values and updateUser
     }
 

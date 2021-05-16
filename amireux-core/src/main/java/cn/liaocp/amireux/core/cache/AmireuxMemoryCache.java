@@ -10,7 +10,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.PreDestroy;
-import java.time.Instant;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -57,7 +56,7 @@ public class AmireuxMemoryCache implements AmireuxCache {
         Assert.hasText(key, "Cache key must not be blank");
         lock.lock();
         try {
-            MemoryCacheWrapper memoryCacheWrapper = new MemoryCacheWrapper(value, DateTimeUtil.currentMillisPlusMillis(expiryTime));
+            MemoryCacheWrapper memoryCacheWrapper = new MemoryCacheWrapper(value, DateTimeUtil.nowMillisPlusMillis(expiryTime));
             CACHE_CONTAINER.put(key, memoryCacheWrapper);
         } catch (Exception e) {
             if (log.isDebugEnabled()) {
@@ -73,9 +72,8 @@ public class AmireuxMemoryCache implements AmireuxCache {
     public String get(@NotNull String key) {
         Assert.hasText(key, "Cache key must not be blank");
         MemoryCacheWrapper memoryCacheWrapper = CACHE_CONTAINER.get(key);
-        Long currentMilli = Instant.now().toEpochMilli();
         if (!ObjectUtils.isEmpty(memoryCacheWrapper)
-                && currentMilli.compareTo(memoryCacheWrapper.getExpiryTime()) < 0) {
+                && DateTimeUtil.nowMillis().compareTo(memoryCacheWrapper.getExpiryTime()) < 0) {
             return memoryCacheWrapper.getValue();
         }
         return null;
@@ -132,7 +130,7 @@ public class AmireuxMemoryCache implements AmireuxCache {
          */
         @Override
         public void run() {
-            Long currentMilli = Instant.now().toEpochMilli();
+            Long currentMilli = DateTimeUtil.nowMillis();
             CACHE_CONTAINER.entrySet().removeIf(e -> currentMilli.compareTo(e.getValue().getExpiryTime()) > 0);
         }
     }

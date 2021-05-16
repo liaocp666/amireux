@@ -11,15 +11,22 @@ import java.time.Instant;
 public class DateTimeUtil {
 
     /**
-     * current time adds the specified duration in milliseconds
+     * Now milliseconds plus the specified milliseconds
      *
      * @param millisToAdd the milliseconds to add, positive or negative
      * @return specified milliseconds added
      */
-    public static Long currentMillisPlusMillis(Long millisToAdd) {
-        Instant now = Instant.now();
-        now = now.plusMillis(millisToAdd);
+    public static Long nowMillisPlusMillis(Long millisToAdd) {
+        Instant now = now().plusMillis(millisToAdd);
         return now.toEpochMilli();
+    }
+
+    public static Instant now() {
+        return Instant.now();
+    }
+
+    public static Long nowMillis() {
+        return now().toEpochMilli();
     }
 
 }
