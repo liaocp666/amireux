@@ -1,6 +1,12 @@
 server:
   port: 8899
 
+amireux:
+  name: amireux
+  security:
+    tokenExpireTime: 1
+    secretExpireTime: 8760
+
 spring:
   profiles:
     active: dev
@@ -9,3 +15,6 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL8Dialect
     open-in-view: false
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8

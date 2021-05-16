@@ -25,4 +25,18 @@ public interface AuthService {
      */
     String login(String username, String password);
 
+    /**
+     * generate Secret in the cache
+     *
+     * @return secret
+     */
+    String generateSecret();
+
+    /**
+     * Get Secret in the cache
+     *
+     * @return secret
+     */
+    String getSecret();
+
 }

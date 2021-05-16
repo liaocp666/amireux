@@ -17,4 +17,11 @@ public interface UserRepository extends BaseRepository<User, String> {
      */
     User findByUsername(String username);
 
+    /**
+     * Query if the same username exists
+     *
+     * @param username username
+     * @return Returns true if it already exists, false if it doesn't
+     */
+    Boolean existsUserByUsername(String username);
 }

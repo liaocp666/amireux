@@ -3,7 +3,6 @@ package cn.liaocp.amireux.core.domain;
 import cn.liaocp.amireux.core.util.DateTimeUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
@@ -13,7 +12,6 @@ import java.io.Serializable;
 import java.time.Instant;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
@@ -31,27 +29,31 @@ public class BaseDomain implements Serializable {
     @JsonIgnore
     private Instant updateTime;
 
-    @Column(nullable = false, length = 36, updatable = false)
+    @Column(nullable = false, length = 36, updatable = true)
     @JsonIgnore
     private String updateUser;
 
-    @PostPersist
-    private void PostPersist() {
+    @PrePersist
+    protected void PrePersist() {
         Instant now = DateTimeUtil.now();
         this.createTime = now;
         this.updateTime = now;
+        this.createUser = "temp user";
+        this.updateUser = "temp user";
         // TODO Assign values to createUser and updateUser
     }
 
-    @PostUpdate
-    private void updateData() {
+    @PreUpdate
+    protected void preUpdate() {
         this.updateTime = DateTimeUtil.now();
+        this.updateUser = "temp user";
         // TODO Assign values and updateUser
     }
 
-    @PostRemove
-    private void preRemove() {
+    @PreRemove
+    protected void preRemove() {
         this.updateTime = DateTimeUtil.now();
+        this.updateUser = "temp user";
         // TODO Assign values and updateUser
     }
 

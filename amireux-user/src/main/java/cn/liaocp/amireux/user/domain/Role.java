@@ -19,7 +19,7 @@ public class Role extends BaseDomain {
 
     @Id
     @GeneratedValue(generator = "roleId")
-    @GenericGenerator(name = "roleId", strategy = "uuid")
+    @GenericGenerator(name = "roleId", strategy = "uuid2")
     private String id;
 
     private String keyword;
@@ -35,7 +35,7 @@ public class Role extends BaseDomain {
     @JsonIgnore
     private Set<User> users;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "system_role_permission",
             joinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))

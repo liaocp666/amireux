@@ -14,7 +14,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.util.Assert;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author Chunping.Liao
@@ -32,6 +37,17 @@ public class SecurityUtil {
     public static String encryptPassword(@NotNull String password) {
         Assert.hasText(password, "password must not be blank");
         return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    /**
+     * Check that a plaintext password matches a previously hashed one
+     *
+     * @param plaintext       plaintext
+     * @param encryptPassword hashed
+     * @return true if the passwords match, false otherwise
+     */
+    public static Boolean checkPW(String plaintext, String encryptPassword) {
+        return BCrypt.checkpw(plaintext, encryptPassword);
     }
 
     /**
@@ -113,6 +129,25 @@ public class SecurityUtil {
     public static Algorithm getAlgorithm(@NotNull String secret) {
         Assert.hasText(secret, "secret must not be blank");
         return Algorithm.HMAC256(secret);
+    }
+
+    /**
+     * GenerateSecret
+     *
+     * @return secret
+     * @throws NoSuchAlgorithmException
+     */
+    public static String generateSecret() {
+        String result;
+        try {
+            KeyGenerator keygen = KeyGenerator.getInstance("AES");
+            SecretKey secretKey = keygen.generateKey();
+            result = Base64.getEncoder().encodeToString(secretKey.getEncoded());
+        } catch (NoSuchAlgorithmException e) {
+            log.warn("Failed to generate secret，use uuid as secret");
+            result = UUID.randomUUID().toString();
+        }
+        return result;
     }
 
 }

@@ -12,7 +12,7 @@ import lombok.Getter;
 public enum RestResultEnum {
 
     SUCCESS(2000, "success"),
-    FAIL(5000, "fail"),
+    FAIL(5000, "Request failed, please contact the system administrator"),
     USER_NOT_FOUND(5001, "Invalid username or password"),
     USER_IS_DISABLED(5002, "User is disabled"),
     INVALID_TOKEN(5003, "Invalid token");

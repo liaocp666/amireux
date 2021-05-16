@@ -1,10 +1,13 @@
 package cn.liaocp.amireux.user.domain;
 
 import cn.liaocp.amireux.core.domain.BaseDomain;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 /**
@@ -18,19 +21,21 @@ public class User extends BaseDomain {
 
     @Id
     @GeneratedValue(generator = "userId")
-    @GenericGenerator(name = "userId", strategy = "uuid")
+    @GenericGenerator(name = "userId", strategy = "uuid2")
     private String id;
 
     /**
      * login account
      */
-    @Column(nullable = false, length = 8)
+    @Column(nullable = false)
+    @NotBlank(message = "username must not be blank")
     private String username;
 
     /**
      * login password
      */
     @Column(nullable = false)
+    @NotBlank(message = "password must not be blank")
     private String password;
 
     private String email;
@@ -41,10 +46,10 @@ public class User extends BaseDomain {
     @Column(name = "is_enable", columnDefinition = "tinyint", length = 1, nullable = false)
     private Boolean enable;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "system_user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @ApiModelProperty(hidden = true)
     private Set<Role> roles;
-
 }

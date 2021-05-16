@@ -1,9 +1,13 @@
 package cn.liaocp.amireux.user.service.impl;
 
+import cn.hutool.core.date.DateUtil;
+import cn.liaocp.amireux.core.cache.AmireuxCache;
 import cn.liaocp.amireux.core.enums.RestResultEnum;
 import cn.liaocp.amireux.core.exception.AmireuxException;
+import cn.liaocp.amireux.core.properties.AmireuxProperties;
 import cn.liaocp.amireux.core.repository.BaseRepository;
 import cn.liaocp.amireux.core.service.impl.BaseServiceImpl;
+import cn.liaocp.amireux.user.SecurityConstant;
 import cn.liaocp.amireux.user.domain.User;
 import cn.liaocp.amireux.user.repository.UserRepository;
 import cn.liaocp.amireux.user.service.AuthService;
@@ -15,7 +19,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -27,6 +34,10 @@ import java.util.Optional;
 public class UserServiceImpl extends BaseServiceImpl<User, String> implements UserService, UserDetailsService, AuthService {
 
     private final UserRepository userRepository;
+
+    private final AmireuxProperties amireuxProperties;
+
+    private final AmireuxCache amireuxCache;
 
     @Override
     public User findByUsername(String username) {
@@ -60,17 +71,48 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 
     @Override
     public User register(User user) {
-        return null;
+        Assert.hasText(user.getUsername(), "username must not be blank");
+        Assert.hasText(user.getPassword(), "password must not be blank");
+        Assert.isTrue(!existsUserByUsername(user.getUsername()), "username already exists");
+        String password = SecurityUtil.encryptPassword(user.getPassword());
+        user.setPassword(password);
+        user.setEnable(Boolean.TRUE);
+        return save(user);
     }
 
     @Override
     public String login(String username, String password) {
-        String encryptedPassword = SecurityUtil.encryptPassword(password);
-        if (!StringUtils.equals(password, encryptedPassword)) {
+        User user = findByUsername(username);
+        System.out.println(user.getRoles());
+        if (!SecurityUtil.checkPW(password, user.getPassword())) {
             throw new AmireuxException(RestResultEnum.USER_NOT_FOUND);
         }
-        User user = findByUsername(username);
         checkUser(user);
-        return null;
+        return SecurityUtil.generateToken(
+                username,
+                amireuxProperties.getName(),
+                DateUtil.offsetDay(new Date(), amireuxProperties.getSecurity().getTokenExpireTime()),
+                getSecret());
+    }
+
+    @Override
+    public String getSecret() {
+        String secret = amireuxCache.get(SecurityConstant.SecurityCacheConstant.JWT_SECRET);
+        if (StringUtils.isBlank(secret)) {
+            secret = generateSecret();
+        }
+        return secret;
+    }
+
+    @Override
+    public String generateSecret() {
+        String secret = SecurityUtil.generateSecret();
+        amireuxCache.put(SecurityConstant.SecurityCacheConstant.JWT_SECRET, secret, amireuxProperties.getSecurity().getSecretExpireTime() * 60 * 60 * 1000L);
+        return secret;
+    }
+
+    @Override
+    public Boolean existsUserByUsername(String username) {
+        return userRepository.existsUserByUsername(username);
     }
 }

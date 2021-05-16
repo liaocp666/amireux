@@ -1,6 +1,7 @@
 package cn.liaocp.amireux.core.domain;
 
 import cn.liaocp.amireux.core.enums.RestResultEnum;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * @date 2021/5/16
  */
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RestResult implements Serializable {
 
     /**
@@ -59,7 +61,7 @@ public class RestResult implements Serializable {
     public static RestResult fail(String msg) {
         RestResult restResult = new RestResult();
         restResult.setCode(RestResultEnum.FAIL.getCode());
-        restResult.setMsg(RestResultEnum.FAIL.getMsg());
+        restResult.setMsg(msg);
         return restResult;
     }
 

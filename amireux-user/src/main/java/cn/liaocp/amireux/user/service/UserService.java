@@ -24,4 +24,12 @@ public interface UserService extends BaseService<User, String> {
      */
     void checkUser(User user);
 
+    /**
+     * Query if the same username exists
+     *
+     * @param username username
+     * @return Returns true if it already exists, false if it doesn't
+     */
+    Boolean existsUserByUsername(String username);
+
 }

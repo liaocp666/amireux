@@ -19,7 +19,7 @@ public class Permission extends BaseDomain {
 
     @Id
     @GeneratedValue(generator = "permissionId")
-    @GenericGenerator(name = "permissionId", strategy = "uuid")
+    @GenericGenerator(name = "permissionId", strategy = "uuid2")
     private String id;
 
     private String keyword;
