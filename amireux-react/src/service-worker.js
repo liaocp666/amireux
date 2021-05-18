@@ -4,7 +4,7 @@
 /* globals workbox */
 workbox.core.setCacheNameDetails({
   prefix: 'antd-pro',
-  suffix: 'v5',
+  suffix: 'v1',
 });
 // Control all opened tabs ASAP
 workbox.clientsClaim();
