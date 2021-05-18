@@ -11,6 +11,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
+/**
+ * @author Chunping.Liao
+ * @date 2021/5/16
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,7 +38,7 @@ public class BaseDomain implements Serializable {
     private String updateUser;
 
     @PrePersist
-    protected void PrePersist() {
+    protected void prePersist() {
         Instant now = DateTimeUtil.now();
         this.createTime = now;
         this.updateTime = now;

@@ -46,7 +46,7 @@ public class SecurityUtil {
      * @param encryptPassword hashed
      * @return true if the passwords match, false otherwise
      */
-    public static Boolean checkPW(String plaintext, String encryptPassword) {
+    public static Boolean checkPassword(String plaintext, String encryptPassword) {
         return BCrypt.checkpw(plaintext, encryptPassword);
     }
 

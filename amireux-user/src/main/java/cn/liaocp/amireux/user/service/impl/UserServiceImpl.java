@@ -21,7 +21,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Optional;
 
@@ -85,7 +84,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         User user = Optional.ofNullable(findByUsername(username)).orElseThrow(() -> {
             throw new AmireuxException(RestResultEnum.USER_NOT_FOUND);
         });
-        if (!SecurityUtil.checkPW(password, user.getPassword())) {
+        if (!SecurityUtil.checkPassword(password, user.getPassword())) {
             throw new AmireuxException(RestResultEnum.USER_NOT_FOUND);
         }
         checkUser(user);
