@@ -82,8 +82,9 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 
     @Override
     public String login(String username, String password) {
-        User user = findByUsername(username);
-        System.out.println(user.getRoles());
+        User user = Optional.ofNullable(findByUsername(username)).orElseThrow(() -> {
+            throw new AmireuxException(RestResultEnum.USER_NOT_FOUND);
+        });
         if (!SecurityUtil.checkPW(password, user.getPassword())) {
             throw new AmireuxException(RestResultEnum.USER_NOT_FOUND);
         }
