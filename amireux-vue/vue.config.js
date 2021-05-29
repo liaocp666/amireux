@@ -1,189 +1,125 @@
-/**
- * @author chuzhixin 1204505056@qq.com （不想保留author可删除）
- * @description cli配置
- */
-
+'use strict'
 const path = require('path')
-const {
-  publicPath,
-  assetsDir,
-  outputDir,
-  lintOnSave,
-  transpileDependencies,
-  title,
-  abbreviation,
-  devPort,
-  providePlugin,
-  build7z,
-  donation,
-} = require('./src/config')
-const { webpackBarName, webpackBanner, donationConsole } = require('zx-layouts')
+const defaultSettings = require('./src/settings.js')
 
-if (donation) donationConsole()
-const { version, author } = require('./package.json')
-const Webpack = require('webpack')
-const WebpackBar = require('webpackbar')
-const FileManagerPlugin = require('filemanager-webpack-plugin')
-const dayjs = require('dayjs')
-const date = dayjs().format('YYYY_M_D')
-const time = dayjs().format('YYYY-M-D HH:mm:ss')
-const productionGzipExtensions = ['html', 'js', 'css', 'svg']
-process.env.VUE_APP_TITLE = title || 'vue-admin-beautiful'
-process.env.VUE_APP_AUTHOR = author || 'chuzhixin 1204505056@qq.com'
-process.env.VUE_APP_UPDATE_TIME = time
-process.env.VUE_APP_VERSION = version
-
-const resolve = (dir) => path.join(__dirname, dir)
-const mockServer = () => {
-  if (process.env.NODE_ENV === 'development') return require('./mock')
-  else return ''
+function resolve(dir) {
+  return path.join(__dirname, dir)
 }
 
+const name = defaultSettings.title || 'vue Element Admin' // page title
+
+// If your port is set to 80,
+// use administrator privileges to execute the command line.
+// For example, Mac: sudo npm run
+// You can change the port by the following method:
+// port = 9527 npm run dev OR npm run dev --port = 9527
+const port = process.env.port || process.env.npm_config_port || 9527 // dev port
+
+// All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
-  publicPath,
-  assetsDir,
-  outputDir,
-  lintOnSave,
-  transpileDependencies,
+  /**
+   * You will need to set publicPath if you plan to deploy your site under a sub path,
+   * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
+   * then publicPath should be set to "/bar/".
+   * In most cases please use '/' !!!
+   * Detail: https://cli.vuejs.org/config/#publicpath
+   */
+  publicPath: '/',
+  outputDir: 'dist',
+  assetsDir: 'static',
+  lintOnSave: process.env.NODE_ENV === 'development',
+  productionSourceMap: false,
   devServer: {
-    hot: true,
-    port: devPort,
+    port: port,
     open: true,
-    noInfo: false,
     overlay: {
-      warnings: true,
-      errors: true,
+      warnings: false,
+      errors: true
     },
-    after: mockServer(),
+    before: require('./mock/mock-server.js')
   },
-  configureWebpack() {
-    return {
-      resolve: {
-        alias: {
-          '@': resolve('src'),
-        },
-      },
-      plugins: [
-        new Webpack.ProvidePlugin(providePlugin),
-        new WebpackBar({
-          name: webpackBarName,
-        }),
-      ],
+  configureWebpack: {
+    // provide the app's title in webpack's name field, so that
+    // it can be accessed in index.html to inject the correct title.
+    name: name,
+    resolve: {
+      alias: {
+        '@': resolve('src')
+      }
     }
   },
   chainWebpack(config) {
-    config.plugins.delete('preload')
+    // it can improve the speed of the first screen, it is recommended to turn on preload
+    // config.plugins.delete('preload')
+
+    // when there are many pages, it will cause too many meaningless requests
     config.plugins.delete('prefetch')
+
+    // set svg-sprite-loader
     config.module
       .rule('svg')
-      .exclude.add(resolve('src/remixIcon'))
-      .add(resolve('src/colorfulIcon'))
+      .exclude.add(resolve('src/icons'))
       .end()
-
     config.module
-      .rule('remixIcon')
+      .rule('icons')
       .test(/\.svg$/)
-      .include.add(resolve('src/remixIcon'))
+      .include.add(resolve('src/icons'))
       .end()
       .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
-      .options({ symbolId: 'remix-icon-[name]' })
+      .options({
+        symbolId: 'icon-[name]'
+      })
       .end()
 
+    // set preserveWhitespace
     config.module
-      .rule('colorfulIcon')
-      .test(/\.svg$/)
-      .include.add(resolve('src/colorfulIcon'))
-      .end()
-      .use('svg-sprite-loader')
-      .loader('svg-sprite-loader')
-      .options({ symbolId: 'colorful-icon-[name]' })
-      .end()
-
-    /*  config.when(process.env.NODE_ENV === "development", (config) => {
-      config.devtool("source-map");
-    }); */
-    config.when(process.env.NODE_ENV !== 'development', (config) => {
-      config.performance.set('hints', false)
-      config.devtool('none')
-      config.optimization.splitChunks({
-        chunks: 'all',
-        cacheGroups: {
-          libs: {
-            name: 'chunk-libs',
-            test: /[\\/]node_modules[\\/]/,
-            priority: 10,
-            chunks: 'initial',
-          },
-          elementUI: {
-            name: 'chunk-elementUI',
-            priority: 20,
-            test: /[\\/]node_modules[\\/]_?element-ui(.*)/,
-          },
-          fortawesome: {
-            name: 'chunk-fortawesome',
-            priority: 20,
-            test: /[\\/]node_modules[\\/]_?@fortawesome(.*)/,
-          },
-        },
+      .rule('vue')
+      .use('vue-loader')
+      .loader('vue-loader')
+      .tap(options => {
+        options.compilerOptions.preserveWhitespace = true
+        return options
       })
-      config
-        .plugin('banner')
-        .use(Webpack.BannerPlugin, [`${webpackBanner}${time}`])
-        .end()
-      config.module
-        .rule('images')
-        .use('image-webpack-loader')
-        .loader('image-webpack-loader')
-        .options({
-          bypassOnDebug: true,
-        })
-        .end()
-    })
+      .end()
 
-    if (build7z) {
-      config.when(process.env.NODE_ENV === 'production', (config) => {
-        config
-          .plugin('fileManager')
-          .use(FileManagerPlugin, [
-            {
-              onEnd: {
-                delete: [`./${outputDir}/video`, `./${outputDir}/data`],
-                archive: [
-                  {
-                    source: `./${outputDir}`,
-                    destination: `./${outputDir}/${abbreviation}_${outputDir}_${date}.7z`,
-                  },
-                ],
-              },
-            },
-          ])
-          .end()
-      })
-    }
-  },
-  runtimeCompiler: true,
-  productionSourceMap: false,
-  css: {
-    requireModuleExtension: true,
-    sourceMap: true,
-    loaderOptions: {
-      scss: {
-        /*sass-loader 8.0语法 */
-        //prependData: '@import "~@/styles/variables.scss";',
-
-        /*sass-loader 9.0写法，感谢github用户 shaonialife*/
-        additionalData(content, loaderContext) {
-          const { resourcePath, rootContext } = loaderContext
-          const relativePath = path.relative(rootContext, resourcePath)
-          if (
-            relativePath.replace(/\\/g, '/') !== 'src/styles/variables.scss'
-          ) {
-            return '@import "~@/styles/variables.scss";' + content
-          }
-          return content
-        },
-      },
-    },
-  },
+    config
+      .when(process.env.NODE_ENV !== 'development',
+        config => {
+          config
+            .plugin('ScriptExtHtmlWebpackPlugin')
+            .after('html')
+            .use('script-ext-html-webpack-plugin', [{
+            // `runtime` must same as runtimeChunk name. default is `runtime`
+              inline: /runtime\..*\.js$/
+            }])
+            .end()
+          config
+            .optimization.splitChunks({
+              chunks: 'all',
+              cacheGroups: {
+                libs: {
+                  name: 'chunk-libs',
+                  test: /[\\/]node_modules[\\/]/,
+                  priority: 10,
+                  chunks: 'initial' // only package third parties that are initially dependent
+                },
+                elementUI: {
+                  name: 'chunk-elementUI', // split elementUI into a single package
+                  priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
+                  test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
+                },
+                commons: {
+                  name: 'chunk-commons',
+                  test: resolve('src/components'), // can customize your rules
+                  minChunks: 3, //  minimum common number
+                  priority: 5,
+                  reuseExistingChunk: true
+                }
+              }
+            })
+          config.optimization.runtimeChunk('single')
+        }
+      )
+  }
 }

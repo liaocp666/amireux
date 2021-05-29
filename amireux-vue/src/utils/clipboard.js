@@ -2,22 +2,23 @@ import Vue from 'vue'
 import Clipboard from 'clipboard'
 
 function clipboardSuccess() {
-  Vue.prototype.$baseMessage('复制成功', 'success')
+  Vue.prototype.$message({
+    message: 'Copy successfully',
+    type: 'success',
+    duration: 1500
+  })
 }
 
 function clipboardError() {
-  Vue.prototype.$baseMessage('复制失败', 'error')
+  Vue.prototype.$message({
+    message: 'Copy failed',
+    type: 'error'
+  })
 }
 
-/**
- * @author chuzhixin 1204505056@qq.com （不想保留author可删除）
- * @description 复制数据
- * @param text
- * @param event
- */
 export default function handleClipboard(text, event) {
   const clipboard = new Clipboard(event.target, {
-    text: () => text,
+    text: () => text
   })
   clipboard.on('success', () => {
     clipboardSuccess()
