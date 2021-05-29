@@ -4,8 +4,7 @@ import cn.liaocp.amireux.core.AmireuxConstant;
 import cn.liaocp.amireux.core.domain.RestResult;
 import cn.liaocp.amireux.user.domain.User;
 import cn.liaocp.amireux.user.service.AuthService;
-import cn.liaocp.amireux.user.vo.LoginParam;
-import io.swagger.annotations.Api;
+import cn.liaocp.amireux.user.vo.SignInParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -27,16 +26,16 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/register")
-    @ApiOperation(value = "Register", notes = "Register a new user")
+    @PostMapping("/sign_up")
+    @ApiOperation(value = "Sign up", notes = "Create a new user")
     public RestResult register(@Validated @RequestBody User user) {
         return RestResult.success(authService.register(user));
     }
 
-    @PostMapping("/login")
-    @ApiOperation(value = "Login", notes = "Use username and password to exchange for a token")
-    public RestResult login(@Validated @RequestBody LoginParam loginParam) {
-        return RestResult.success(authService.login(loginParam.getUsername(), loginParam.getPassword()));
+    @PostMapping("/sign_in")
+    @ApiOperation(value = "Sign in", notes = "Use username and password to exchange for a token")
+    public RestResult login(@Validated @RequestBody SignInParam signInParam) {
+        return RestResult.success(authService.login(signInParam.getUsername(), signInParam.getPassword()));
     }
 
 }

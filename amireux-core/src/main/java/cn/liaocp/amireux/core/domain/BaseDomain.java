@@ -2,6 +2,7 @@ package cn.liaocp.amireux.core.domain;
 
 import cn.liaocp.amireux.core.util.DateTimeUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseDomain implements Serializable {
 
     @Column(nullable = false, length = 36, updatable = false)

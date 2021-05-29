@@ -15,7 +15,7 @@ public abstract class BaseServiceImpl<T extends BaseDomain, ID> implements BaseS
      *
      * @return implementation object
      */
-    public abstract BaseRepository getBaseDomainRepository();
+    public abstract BaseRepository<T, ID> getBaseDomainRepository();
 
     @Override
     public T save(T domain) {

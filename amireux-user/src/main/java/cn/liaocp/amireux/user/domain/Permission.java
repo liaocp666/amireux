@@ -3,6 +3,7 @@ package cn.liaocp.amireux.user.domain;
 import cn.liaocp.amireux.core.domain.BaseDomain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "system_permission")
+@EqualsAndHashCode(callSuper = true)
 public class Permission extends BaseDomain {
 
     @Id

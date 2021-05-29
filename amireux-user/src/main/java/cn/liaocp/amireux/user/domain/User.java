@@ -3,6 +3,7 @@ package cn.liaocp.amireux.user.domain;
 import cn.liaocp.amireux.core.domain.BaseDomain;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -17,6 +18,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "system_user")
+@EqualsAndHashCode(callSuper = true)
 public class User extends BaseDomain {
 
     @Id
