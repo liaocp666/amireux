@@ -1,6 +1,9 @@
 package cn.liaocp.amireux.user.service;
 
+import cn.liaocp.amireux.user.domain.Permission;
 import cn.liaocp.amireux.user.domain.User;
+
+import java.util.List;
 
 /**
  * @author Chunping.Liao
@@ -39,4 +42,5 @@ public interface AuthService {
      */
     String getSecret();
 
+    List<Permission> menu();
 }

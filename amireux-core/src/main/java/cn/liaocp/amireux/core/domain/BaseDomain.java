@@ -4,8 +4,9 @@ import cn.liaocp.amireux.core.util.DateTimeUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
@@ -16,7 +17,8 @@ import java.time.Instant;
  * @author Chunping.Liao
  * @date 2021/5/16
  */
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass

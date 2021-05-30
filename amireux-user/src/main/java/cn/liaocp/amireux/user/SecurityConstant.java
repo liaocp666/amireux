@@ -6,6 +6,11 @@ package cn.liaocp.amireux.user;
  */
 public class SecurityConstant {
 
+    public final static String AUTHORIZATION = "Authorization";
+
+    public final static String TOKEN_PREFIX = "Bearer ";
+
+    public final static String FORBIDDEN = "FORBIDDEN";
 
     public static class SecurityCacheConstant {
         public final static String JWT_SECRET = "jwtSecret";

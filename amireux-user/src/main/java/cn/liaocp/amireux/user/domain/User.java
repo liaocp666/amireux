@@ -1,11 +1,11 @@
 package cn.liaocp.amireux.user.domain;
 
 import cn.liaocp.amireux.core.domain.BaseDomain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -29,7 +29,7 @@ public class User extends BaseDomain {
     /**
      * login account
      */
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotBlank(message = "username must not be blank")
     private String username;
 
@@ -48,10 +48,11 @@ public class User extends BaseDomain {
     @Column(name = "is_enable", columnDefinition = "tinyint", length = 1, nullable = false)
     private Boolean enable;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "system_user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     @ApiModelProperty(hidden = true)
+    @JsonIgnore
     private Set<Role> roles;
 }

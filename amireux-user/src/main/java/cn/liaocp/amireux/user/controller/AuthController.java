@@ -8,10 +8,7 @@ import cn.liaocp.amireux.user.vo.SignInParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Chunping.Liao
@@ -36,6 +33,12 @@ public class AuthController {
     @ApiOperation(value = "Sign in", notes = "Use username and password to exchange for a token")
     public RestResult login(@Validated @RequestBody SignInParam signInParam) {
         return RestResult.success(authService.login(signInParam.getUsername(), signInParam.getPassword()));
+    }
+
+    @GetMapping("/menu")
+    @ApiOperation(value = "Menus", notes = "Dynamic menu generation based on permissions")
+    public RestResult menu() {
+        return RestResult.success(authService.menu());
     }
 
 }

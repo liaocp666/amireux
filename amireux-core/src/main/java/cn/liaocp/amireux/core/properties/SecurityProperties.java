@@ -2,6 +2,8 @@ package cn.liaocp.amireux.core.properties;
 
 import lombok.Data;
 
+import java.util.Set;
+
 /**
  * Load application.yml fle configuration
  *
@@ -22,5 +24,10 @@ public class SecurityProperties {
      * 8760 hours (One year) by default
      */
     private Integer secretExpireTime = 8760;
+
+    /**
+     * Anonymous Access URL
+     */
+    private Set<String> whiteList;
 
 }

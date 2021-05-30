@@ -104,7 +104,8 @@ public class SecurityUtil {
     }
 
     /**
-     * Get subject by token
+     * 0
+     * Get subject by token'
      * verify token first, decode token late,if the validation does not pass, {@link AmireuxException} will be thrown
      *
      * @param token   Token
@@ -114,7 +115,7 @@ public class SecurityUtil {
      */
     public static String getSubject(String token, String issUser, String secret) {
         if (!verifyToken(token, issUser, secret)) {
-            throw new AmireuxException(RestResultEnum.INVALID_TOKEN);
+            throw new AmireuxException(RestResultEnum.UNAUTHORIZED);
         }
         DecodedJWT decode = JWT.decode(token);
         return decode.getSubject();

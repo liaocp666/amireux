@@ -2,6 +2,7 @@ package cn.liaocp.amireux.user.service;
 
 import cn.liaocp.amireux.core.service.BaseService;
 import cn.liaocp.amireux.user.domain.User;
+import cn.liaocp.amireux.user.dto.UserDto;
 
 /**
  * @author Chunping.Liao
@@ -32,4 +33,15 @@ public interface UserService extends BaseService<User, String> {
      */
     Boolean existsUserByUsername(String username);
 
+    /**
+     * Get UserDto by jwt token
+     *
+     * @param token jwt token
+     * @return UserDto
+     */
+    UserDto getUserDtoByJwtToken(String token);
+
+    User findById(String id);
+
+    UserDto findUserDtoById(String id);
 }
