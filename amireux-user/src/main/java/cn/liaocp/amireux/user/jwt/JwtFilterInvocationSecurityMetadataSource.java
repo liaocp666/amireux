@@ -5,6 +5,7 @@ import cn.liaocp.amireux.user.SecurityConstant;
 import cn.liaocp.amireux.user.domain.Permission;
 import cn.liaocp.amireux.user.service.PermissionService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -33,7 +34,7 @@ public class JwtFilterInvocationSecurityMetadataSource implements FilterInvocati
         String reqUrl = ((FilterInvocation) object).getRequest().getRequestURI();
         // Filtering whitelist URLs
         if (matchWhiteList(reqUrl)) {
-            return Collections.EMPTY_LIST;
+            return SecurityConfig.createList(SecurityConstant.ANONYMOUS);
         }
         Permission permission = permissionService.findByUrl(reqUrl);
         if (ObjectUtils.isEmpty(permission)) {
@@ -54,8 +55,8 @@ public class JwtFilterInvocationSecurityMetadataSource implements FilterInvocati
 
     private Boolean matchWhiteList(String reqUrl) {
         Set<String> whiteList = amireuxProperties.getSecurity().getWhiteList();
-        for (String s : whiteList) {
-            if (s.indexOf(reqUrl) == 1) {
+        for (String whiteUrl : whiteList) {
+            if (StringUtils.contains(whiteUrl, reqUrl)) {
                 return Boolean.TRUE;
             }
         }

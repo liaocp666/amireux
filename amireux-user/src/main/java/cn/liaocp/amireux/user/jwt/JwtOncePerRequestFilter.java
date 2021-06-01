@@ -1,5 +1,8 @@
 package cn.liaocp.amireux.user.jwt;
 
+import cn.liaocp.amireux.core.enums.RestResultEnum;
+import cn.liaocp.amireux.core.http.MultiReadHttpServletRequest;
+import cn.liaocp.amireux.core.properties.AmireuxProperties;
 import cn.liaocp.amireux.core.util.RequestUtil;
 import cn.liaocp.amireux.user.SecurityConstant;
 import cn.liaocp.amireux.user.dto.UserDto;
@@ -7,6 +10,7 @@ import cn.liaocp.amireux.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,25 +42,25 @@ public class JwtOncePerRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = RequestUtil.getParamByHeader(SecurityConstant.AUTHORIZATION);
+        MultiReadHttpServletRequest wrappedRequest = new MultiReadHttpServletRequest(request);
+
+        String token = RequestUtil.getParamByHeader(SecurityConstant.AUTHORIZATION, wrappedRequest);
         if (!StringUtils.hasText(token)) {
             LOGGER.warn("No token found in request");
             SecurityContextHolder.clearContext();
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(wrappedRequest, response);
             return;
         }
         UserDto userDto = userService.getUserDtoByJwtToken(token.replaceAll(SecurityConstant.TOKEN_PREFIX, ""));
         if (ObjectUtils.isEmpty(userDto)) {
-            LOGGER.warn("No user found in request");
             SecurityContextHolder.clearContext();
-            filterChain.doFilter(request, response);
-            return;
+            throw new BadCredentialsException(RestResultEnum.UNAUTHORIZED.getMsg());
         }
         Set<GrantedAuthority> grantedAuthorities = userDto.getPermissions().stream().map(p -> new SimpleGrantedAuthority(p.getUrl())).collect(Collectors.toSet());
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(userDto, token, grantedAuthorities);
         // Set authentication information
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(wrappedRequest, response);
     }
 }

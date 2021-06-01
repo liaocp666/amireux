@@ -23,7 +23,7 @@ export default {
   menu: {
     locale: true
   },
-  title: 'YRiver System',
+  title: 'Amireux',
   pwa: false,
   iconfontUrl: '',
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'

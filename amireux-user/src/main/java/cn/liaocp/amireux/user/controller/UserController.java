@@ -6,6 +6,8 @@ import cn.liaocp.amireux.user.dto.UserDto;
 import cn.liaocp.amireux.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +31,7 @@ public class UserController {
     public final static String API = AmireuxConstant.API + "/user";
 
     @ApiOperation("Get current authorized user information")
-    @GetMapping("/info")
+    @GetMapping("/current")
     public RestResult currentUser() {
         UserDto user = userService.findUserDtoById("cfb31219-a39b-4b1e-aede-600b2ad61a52");
         return RestResult.success(user);
@@ -37,6 +39,8 @@ public class UserController {
 
     @GetMapping("/menu")
     public RestResult queryMenuByUser() {
+        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        token.getAuthorities().forEach(System.out::println);
         List<Map<String, Object>> result = new LinkedList<>();
         Map<String, Object> map = new HashMap<>();
         result.add(map);

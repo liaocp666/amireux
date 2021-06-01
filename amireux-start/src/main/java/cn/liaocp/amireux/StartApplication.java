@@ -8,11 +8,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
  * @author Chunping.Liao
  * @date 2021/5/16
  */
-@SpringBootApplication(
-        exclude = {
-                SecurityAutoConfiguration.class
-        }
-)
+@SpringBootApplication
 public class StartApplication {
 
     public static void main(String[] args) {

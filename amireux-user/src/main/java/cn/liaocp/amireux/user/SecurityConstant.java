@@ -10,7 +10,11 @@ public class SecurityConstant {
 
     public final static String TOKEN_PREFIX = "Bearer ";
 
-    public final static String FORBIDDEN = "FORBIDDEN";
+    public final static String UNAUTHORIZED = "Unauthorized";
+
+    public final static String ANONYMOUS = "Anonymous";
+
+    public final static String FORBIDDEN = "Forbidden";
 
     public static class SecurityCacheConstant {
         public final static String JWT_SECRET = "jwtSecret";
