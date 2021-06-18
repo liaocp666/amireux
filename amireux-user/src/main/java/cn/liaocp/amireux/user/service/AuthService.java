@@ -2,6 +2,7 @@ package cn.liaocp.amireux.user.service;
 
 import cn.liaocp.amireux.user.domain.Permission;
 import cn.liaocp.amireux.user.domain.User;
+import cn.liaocp.amireux.user.dto.DynamicMenu;
 
 import java.util.List;
 
@@ -42,5 +43,9 @@ public interface AuthService {
      */
     String getSecret();
 
-    List<Permission> menu();
+    /**
+     * Find menu by current user
+     * @return
+     */
+    List<DynamicMenu> findDynamicMenu();
 }

@@ -33,10 +33,10 @@ public class Permission extends BaseDomain {
 
     private String remark;
 
-    private String keyword;
+    private String permissionType;
 
     @NotBlank(message = "Access URL must not be blank")
-    @Column(nullable = true, unique = true)
+    @Column(unique = true)
     private String url;
 
     /**
@@ -48,12 +48,6 @@ public class Permission extends BaseDomain {
     private String enable;
 
     private Integer sortNum;
-
-    /**
-     * Sub-permissions of the current permission
-     */
-    @Transient
-    private Set<Permission> children;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "permissions")

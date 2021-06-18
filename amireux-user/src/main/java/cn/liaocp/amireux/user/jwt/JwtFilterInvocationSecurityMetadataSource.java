@@ -5,6 +5,7 @@ import cn.liaocp.amireux.user.SecurityConstant;
 import cn.liaocp.amireux.user.domain.Permission;
 import cn.liaocp.amireux.user.service.PermissionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -14,13 +15,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Set;
 
 /**
  * @author Chunping.Liao
  * @date 2021/5/30
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
@@ -38,6 +39,7 @@ public class JwtFilterInvocationSecurityMetadataSource implements FilterInvocati
         }
         Permission permission = permissionService.findByUrl(reqUrl);
         if (ObjectUtils.isEmpty(permission)) {
+            log.info("Permission not found -> {}", reqUrl);
             return SecurityConfig.createList(SecurityConstant.FORBIDDEN);
         }
         return SecurityConfig.createList(permission.getUrl());

@@ -38,7 +38,7 @@ public class AuthController {
     @GetMapping("/menu")
     @ApiOperation(value = "Menus", notes = "Dynamic menu generation based on permissions")
     public RestResult menu() {
-        return RestResult.success(authService.menu());
+        return RestResult.success(authService.findDynamicMenu());
     }
 
 }

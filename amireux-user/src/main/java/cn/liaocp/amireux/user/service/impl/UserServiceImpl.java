@@ -10,6 +10,7 @@ import cn.liaocp.amireux.core.service.impl.BaseServiceImpl;
 import cn.liaocp.amireux.user.SecurityConstant;
 import cn.liaocp.amireux.user.domain.Permission;
 import cn.liaocp.amireux.user.domain.User;
+import cn.liaocp.amireux.user.dto.DynamicMenu;
 import cn.liaocp.amireux.user.dto.UserDto;
 import cn.liaocp.amireux.user.repository.UserRepository;
 import cn.liaocp.amireux.user.service.AuthService;
@@ -167,7 +168,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
 
     @Override
-    public List<Permission> menu() {
+    public List<DynamicMenu> findDynamicMenu() {
         return null;
     }
 }
