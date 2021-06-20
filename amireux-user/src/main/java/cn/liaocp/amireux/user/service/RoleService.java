@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface RoleService extends BaseService<Role, String> {
 
-    List<Role> findRolesByUsers(User user);
+    List<Role> findRolesByUsers(List<User> users);
 
 }

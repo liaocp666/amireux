@@ -2,9 +2,10 @@ server:
   port: 8899
 
 amireux:
-  name: amireux
+  name: Amireux
+  version: 1.0.0
   security:
-    tokenExpireTime: 1
+    tokenExpireTime: 168
     secretExpireTime: 8760
     whiteList:
       - /api/v1/auth/sign_in

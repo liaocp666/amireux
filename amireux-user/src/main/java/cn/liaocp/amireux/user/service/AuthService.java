@@ -47,4 +47,11 @@ public interface AuthService {
      * @return
      */
     List<DynamicMenu> findDynamicMenu();
+    
+    /**
+	 * jwt in request to get user information
+	 * 
+	 * @return
+	 */
+	User currentUser();
 }

@@ -10,11 +10,11 @@
           <div class="header">
             <a href="/">
               <img src="~@/assets/logo.svg" class="logo" alt="logo">
-              <span class="title">Ant Design</span>
+              <span class="title">Amireux</span>
             </a>
           </div>
           <div class="desc">
-            {{ $t('layouts.userLayout.title') }}
+            账号登录
           </div>
         </div>
 
@@ -27,7 +27,7 @@
             <a href="_self">条款</a>
           </div>
           <div class="copyright">
-            Copyright &copy; 2018 vueComponent
+            Copyright &copy; {{ year }} Amireux
           </div>
         </div>
       </div>
@@ -45,6 +45,11 @@ export default {
     SelectLang
   },
   mixins: [deviceMixin],
+  data () {
+    return {
+      year: new Date().getFullYear()
+    }
+  },
   mounted () {
     document.body.classList.add('userLayout')
   },
@@ -132,6 +137,7 @@ export default {
         .desc {
           font-size: 14px;
           color: rgba(0, 0, 0, 0.45);
+          font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
           margin-top: 12px;
           margin-bottom: 40px;
         }

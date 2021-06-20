@@ -5,6 +5,7 @@ import cn.liaocp.amireux.core.cache.AmireuxCache;
 import cn.liaocp.amireux.core.enums.RestResultEnum;
 import cn.liaocp.amireux.core.exception.AmireuxException;
 import cn.liaocp.amireux.core.properties.AmireuxProperties;
+import cn.liaocp.amireux.core.properties.SecurityProperties;
 import cn.liaocp.amireux.core.repository.BaseRepository;
 import cn.liaocp.amireux.core.service.impl.BaseServiceImpl;
 import cn.liaocp.amireux.user.SecurityConstant;
@@ -44,6 +45,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
 	private final UserRepository userRepository;
 
 	private final AmireuxProperties amireuxProperties;
+	
+	private final SecurityProperties securityProperties;
 
 	private final AmireuxCache amireuxCache;
 
@@ -101,7 +104,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
 		}
 		checkUser(user);
 		return SecurityUtil.generateToken(user.getId(), amireuxProperties.getName(),
-				DateUtil.offsetDay(new Date(), amireuxProperties.getSecurity().getTokenExpireTime()), getSecret());
+				DateUtil.offsetHour(new Date(), securityProperties.getTokenExpireTime()), getSecret());
 	}
 
 	@Override
@@ -117,7 +120,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
 	public String generateSecret() {
 		String secret = SecurityUtil.generateSecret();
 		amireuxCache.put(SecurityConstant.SecurityCacheConstant.JWT_SECRET, secret,
-				amireuxProperties.getSecurity().getSecretExpireTime() * 60 * 60 * 1000L);
+				DateUtil.offsetHour(new Date(), securityProperties.getSecretExpireTime()).getTime());
 		return secret;
 	}
 
@@ -157,7 +160,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
 			return userDto;
 		}
 		userDto.setUser(user);
-		userDto.setRoles(roleService.findRolesByUsers(user));
+		userDto.setRoles(roleService.findRolesByUsers(List.of(user)));
 		userDto.setPermissions(permissionService.findPermissionsByRoles(userDto.getRoles()));
 		return userDto;
 	}
@@ -165,5 +168,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
 	@Override
 	public List<DynamicMenu> findDynamicMenu() {
 		return null;
+	}
+
+	@Override
+	public User currentUser() {
+		return SecurityUtil.currentUser().getUser();
 	}
 }

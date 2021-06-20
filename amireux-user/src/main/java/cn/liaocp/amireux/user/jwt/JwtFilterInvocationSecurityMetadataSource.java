@@ -1,6 +1,6 @@
 package cn.liaocp.amireux.user.jwt;
 
-import cn.liaocp.amireux.core.properties.AmireuxProperties;
+import cn.liaocp.amireux.core.properties.SecurityProperties;
 import cn.liaocp.amireux.user.SecurityConstant;
 import cn.liaocp.amireux.user.domain.Permission;
 import cn.liaocp.amireux.user.service.PermissionService;
@@ -26,7 +26,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class JwtFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
-    private final AmireuxProperties amireuxProperties;
+    private final SecurityProperties securityProperties;
 
     private final PermissionService permissionService;
 
@@ -56,7 +56,7 @@ public class JwtFilterInvocationSecurityMetadataSource implements FilterInvocati
     }
 
     private Boolean matchWhiteList(String reqUrl) {
-        Set<String> whiteList = amireuxProperties.getSecurity().getWhiteList();
+        Set<String> whiteList = securityProperties.getWhiteList();
         for (String whiteUrl : whiteList) {
             if (StringUtils.contains(whiteUrl, reqUrl)) {
                 return Boolean.TRUE;

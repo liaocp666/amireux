@@ -10,38 +10,38 @@ import cn.liaocp.amireux.user.dto.UserDto;
  */
 public interface UserService extends BaseService<User, String> {
 
-    /**
-     * Get the user by username
-     *
-     * @param username username
-     * @return User
-     */
-    User findByUsername(String username);
+	/**
+	 * Get the user by username
+	 *
+	 * @param username username
+	 * @return User
+	 */
+	User findByUsername(String username);
 
-    /**
-     * Check if the user is valid
-     *
-     * @param user User
-     */
-    void checkUser(User user);
+	/**
+	 * Check if the user is valid
+	 *
+	 * @param user User
+	 */
+	void checkUser(User user);
 
-    /**
-     * Query if the same username exists
-     *
-     * @param username username
-     * @return Returns true if it already exists, false if it doesn't
-     */
-    Boolean existsUserByUsername(String username);
+	/**
+	 * Query if the same username exists
+	 *
+	 * @param username username
+	 * @return Returns true if it already exists, false if it doesn't
+	 */
+	Boolean existsUserByUsername(String username);
 
-    /**
-     * Get UserDto by jwt token
-     *
-     * @param token jwt token
-     * @return UserDto
-     */
-    UserDto getUserDtoByJwtToken(String token);
+	/**
+	 * Get UserDto by jwt token
+	 *
+	 * @param token jwt token
+	 * @return UserDto
+	 */
+	UserDto getUserDtoByJwtToken(String token);
 
-    User findById(String id);
+	User findById(String id);
 
-    UserDto findUserDtoById(String id);
+	UserDto findUserDtoById(String id);
 }

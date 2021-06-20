@@ -63,11 +63,25 @@ request.interceptors.request.use(config => {
 
 // response interceptor
 request.interceptors.response.use((response) => {
-  if (response.data.code !== 2000) {
+  if (response.data.code === 5000) {
     notification.error({
       message: '错误',
       description: response.data.msg
     })
+  }
+  if (response.data.code === 5003 || response.data.code === 5002) {
+    notification.error({
+      message: '错误',
+      description: response.data.msg
+    })
+    const token = storage.get(ACCESS_TOKEN)
+    if (token) {
+      store.dispatch('Logout').then(() => {
+        setTimeout(() => {
+          window.location.reload()
+        }, 1500)
+      })
+    }
   }
   return response.data
 }, errorHandler)

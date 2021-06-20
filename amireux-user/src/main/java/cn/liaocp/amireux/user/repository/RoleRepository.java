@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface RoleRepository extends BaseRepository<Role, String> {
 
-    List<Role> findRolesByUsersIn(List<User> users);
+    List<Role> findByUsersIn(List<User> users);
 
 }

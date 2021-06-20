@@ -9,8 +9,8 @@ const userApi = {
   SendSms: '/account/sms',
   SendSmsErr: '/account/sms_err',
   // get my info
-  UserInfo: '/api/v1/user/current',
-  UserMenu: '/api/v1/user/menu'
+  UserInfo: '/api/v1/auth/current',
+  UserMenu: '/api/v1/auth/menu'
 }
 
 /**

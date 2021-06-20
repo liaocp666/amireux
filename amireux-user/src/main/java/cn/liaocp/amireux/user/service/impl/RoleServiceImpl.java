@@ -7,7 +7,6 @@ import cn.liaocp.amireux.user.domain.User;
 import cn.liaocp.amireux.user.repository.RoleRepository;
 import cn.liaocp.amireux.user.service.RoleService;
 import lombok.RequiredArgsConstructor;
-import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, String> implements Ro
     }
 
     @Override
-    public List<Role> findRolesByUsers(User user) {
-        return roleRepository.findRolesByUsersIn(Lists.list(user));
+    public List<Role> findRolesByUsers(List<User> users) {
+        return roleRepository.findByUsersIn(users);
     }
 }

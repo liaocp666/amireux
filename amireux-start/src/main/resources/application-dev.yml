@@ -1,7 +1,5 @@
 spring:
-  devtools:
-    restart:
-      enabled: true
+  devtools:    restart:      enabled: true
   # datasource configuration
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource

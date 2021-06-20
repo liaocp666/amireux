@@ -35,6 +35,7 @@ public class ResponseUtil {
         objectNode.put("msg", restResultEnum.getMsg());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpServletResponse.SC_OK);
         PrintWriter writer = response.getWriter();
         writer.write(objectNode.toString());
         writer.close();

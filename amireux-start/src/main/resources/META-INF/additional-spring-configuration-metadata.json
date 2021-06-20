@@ -1,0 +1,29 @@
+{"properties": [
+  {
+    "name": "amireux.name",
+    "type": "java.lang.String",
+    "description": "Name of the project",
+    "defaultValue": "Amireux"
+  },
+  {
+    "name": "amireux.security.token-expire-time",
+    "type": "java.lang.Integer",
+    "description": "Token Expire time, Unit: hour",
+    "defaultValue": "168"
+  },
+  {
+    "name": "amireux.security.secretExpireTime",
+    "type": "java.lang.Integer",
+    "description": 8760
+  },
+  {
+    "name": "amireux.security.whiteList",
+    "type": "java.util.List<String>",
+    "description": "White List URL"
+  },
+  {
+    "name": "amireux.version",
+    "type": "java.lang.String",
+    "description": "Version of the project"
+  }
+]}

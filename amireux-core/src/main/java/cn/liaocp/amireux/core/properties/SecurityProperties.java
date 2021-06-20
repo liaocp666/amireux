@@ -4,23 +4,28 @@ import lombok.Data;
 
 import java.util.Set;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
 /**
- * Load application.yml fle configuration
+ * Load application.yml file configuration
  *
  * @author Chunping.Liao
  * @date 2021/5/16
  */
 @Data
+@Component
+@ConfigurationProperties(prefix = "amireux.security")
 public class SecurityProperties {
 
     /**
-     * Token expiry time (hour)
+     * Token expire time (hour)
      * 168 hours by default
      */
     private Integer tokenExpireTime = 168;
 
     /**
-     * Token expiry time (hour)
+     * Token expire time (hour)
      * 8760 hours (One year) by default
      */
     private Integer secretExpireTime = 8760;

@@ -40,5 +40,11 @@ public class AuthController {
     public RestResult menu() {
         return RestResult.success(authService.findDynamicMenu());
     }
+    
+    @GetMapping("/current")
+    @ApiOperation(value = "Current User", notes = "jwt in request to get user information")
+	public RestResult currentUser() {
+		return RestResult.success(authService.currentUser());
+	}
 
 }
