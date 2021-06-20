@@ -12,7 +12,9 @@ import java.io.Serializable;
 @Data
 public class SignInParam implements Serializable {
 
-    @NotBlank(message = "username must not be blank")
+	private static final long serialVersionUID = -2505480159470239183L;
+
+	@NotBlank(message = "username must not be blank")
     private String username;
 
     @NotBlank(message = "password must not be blank")

@@ -21,7 +21,9 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseDomain {
 
-    @Id
+	private static final long serialVersionUID = -2782201728914530440L;
+
+	@Id
     @GeneratedValue(generator = "userId")
     @GenericGenerator(name = "userId", strategy = "uuid2")
     private String id;

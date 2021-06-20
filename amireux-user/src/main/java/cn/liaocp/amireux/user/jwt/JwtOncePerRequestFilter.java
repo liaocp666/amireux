@@ -2,7 +2,6 @@ package cn.liaocp.amireux.user.jwt;
 
 import cn.liaocp.amireux.core.enums.RestResultEnum;
 import cn.liaocp.amireux.core.http.MultiReadHttpServletRequest;
-import cn.liaocp.amireux.core.properties.AmireuxProperties;
 import cn.liaocp.amireux.core.util.RequestUtil;
 import cn.liaocp.amireux.user.SecurityConstant;
 import cn.liaocp.amireux.user.dto.UserDto;

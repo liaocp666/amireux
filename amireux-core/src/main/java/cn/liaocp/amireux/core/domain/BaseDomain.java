@@ -25,7 +25,9 @@ import java.time.Instant;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseDomain implements Serializable {
 
-    @Column(nullable = false, length = 36, updatable = false)
+	private static final long serialVersionUID = 3166808065275155473L;
+
+	@Column(nullable = false, length = 36, updatable = false)
     @CreatedBy
     @JsonIgnore
     private String createUser;

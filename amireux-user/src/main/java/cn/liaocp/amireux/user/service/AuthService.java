@@ -1,6 +1,5 @@
 package cn.liaocp.amireux.user.service;
 
-import cn.liaocp.amireux.user.domain.Permission;
 import cn.liaocp.amireux.user.domain.User;
 import cn.liaocp.amireux.user.dto.DynamicMenu;
 

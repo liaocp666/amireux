@@ -20,7 +20,9 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class Permission extends BaseDomain {
 
-    @Id
+	private static final long serialVersionUID = -5404991409857645267L;
+
+	@Id
     @GeneratedValue(generator = "permissionId")
     @GenericGenerator(name = "permissionId", strategy = "uuid2")
     private String id;

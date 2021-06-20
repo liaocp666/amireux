@@ -20,7 +20,9 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class Role extends BaseDomain {
 
-    @Id
+	private static final long serialVersionUID = -1100495815072708484L;
+
+	@Id
     @GeneratedValue(generator = "roleId")
     @GenericGenerator(name = "roleId", strategy = "uuid2")
     private String id;

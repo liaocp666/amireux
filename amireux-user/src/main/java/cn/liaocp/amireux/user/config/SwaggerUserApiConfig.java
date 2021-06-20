@@ -1,6 +1,5 @@
 package cn.liaocp.amireux.user.config;
 
-import cn.liaocp.amireux.core.properties.AmireuxProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +18,6 @@ import java.time.temporal.Temporal;
 @Configuration
 @RequiredArgsConstructor
 public class SwaggerUserApiConfig {
-
-    private final AmireuxProperties amireuxProperties;
 
     private final ApiInfo apiInfo;
 

@@ -2,10 +2,7 @@ package cn.liaocp.amireux.user.service;
 
 import cn.liaocp.amireux.core.service.BaseService;
 import cn.liaocp.amireux.user.domain.User;
-import cn.liaocp.amireux.user.dto.DynamicMenu;
 import cn.liaocp.amireux.user.dto.UserDto;
-
-import java.util.List;
 
 /**
  * @author Chunping.Liao

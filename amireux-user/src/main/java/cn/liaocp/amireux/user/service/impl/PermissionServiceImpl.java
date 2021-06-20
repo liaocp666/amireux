@@ -22,7 +22,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, String> i
     private final PermissionRepository permissionRepository;
 
     @Override
-    public BaseRepository getBaseDomainRepository() {
+    public BaseRepository<Permission, String> getBaseDomainRepository() {
         return permissionRepository;
     }
 

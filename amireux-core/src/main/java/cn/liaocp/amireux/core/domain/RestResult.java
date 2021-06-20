@@ -14,7 +14,9 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RestResult implements Serializable {
 
-    /**
+	private static final long serialVersionUID = 8656683122046098605L;
+
+	/**
      * Status Code
      */
     private Integer code;
