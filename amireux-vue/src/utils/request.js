@@ -77,9 +77,7 @@ request.interceptors.response.use((response) => {
     const token = storage.get(ACCESS_TOKEN)
     if (token) {
       store.dispatch('Logout').then(() => {
-        setTimeout(() => {
-          window.location.reload()
-        }, 1500)
+        window.location.reload()
       })
     }
   }

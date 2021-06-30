@@ -2,14 +2,17 @@ package cn.liaocp.amireux.user.domain;
 
 import cn.liaocp.amireux.core.domain.BaseDomain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Chunping.Liao
@@ -19,6 +22,7 @@ import java.util.Set;
 @Entity
 @Table(name = "system_user")
 @EqualsAndHashCode(callSuper = true)
+@ToString(exclude = "roles", callSuper = true)
 public class User extends BaseDomain {
 
 	private static final long serialVersionUID = -2782201728914530440L;
@@ -56,5 +60,5 @@ public class User extends BaseDomain {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     @ApiModelProperty(hidden = true)
     @JsonIgnore
-    private Set<Role> roles;
+    private List<Role> roles = new ArrayList<>();
 }

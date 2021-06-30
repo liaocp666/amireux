@@ -53,7 +53,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { getSmsCaptcha, get2step } from '@/api/login'
+import { getSmsCaptcha } from '@/api/login'
 
 export default {
   components: {},
@@ -77,14 +77,7 @@ export default {
     }
   },
   created () {
-    get2step({})
-      .then(res => {
-        this.requiredTwoStepCaptcha = res.result.stepCode
-      })
-      .catch(() => {
-        this.requiredTwoStepCaptcha = false
-      })
-    // this.requiredTwoStepCaptcha = true
+    this.requiredTwoStepCaptcha = false
   },
   methods: {
     ...mapActions(['Login', 'Logout']),

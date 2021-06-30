@@ -4,10 +4,13 @@ import cn.liaocp.amireux.core.domain.BaseDomain;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
+import java.io.Serializable;
+
 /**
  * @author Chunping.Liao
  * @date 2021/5/16
  */
 @NoRepositoryBean
-public interface BaseRepository<S extends BaseDomain, ID> extends JpaRepository<S, ID> {
+public interface BaseRepository<T extends BaseDomain, ID extends Serializable> extends JpaRepository<T, ID> {
+
 }

@@ -1,5 +1,6 @@
 package cn.liaocp.amireux.user.jwt;
 
+import cn.hutool.core.io.IoUtil;
 import cn.liaocp.amireux.core.enums.RestResultEnum;
 import cn.liaocp.amireux.core.http.MultiReadHttpServletRequest;
 import cn.liaocp.amireux.core.util.RequestUtil;
@@ -24,6 +25,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,10 +45,20 @@ public class JwtOncePerRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         MultiReadHttpServletRequest wrappedRequest = new MultiReadHttpServletRequest(request);
+        Instant start = Instant.now();
+        try {
+            doFilter(wrappedRequest, response, filterChain);
+        } finally {
+            Instant finish = Instant.now();
+            long time = Duration.between(start, finish).toMillis();
+            LOGGER.info("request uri -> [{}], request params -> [{}], time -> [{}ms]", wrappedRequest.getRequestURI(), IoUtil.read(wrappedRequest.getReader()), time);
+        }
+    }
 
+    protected void doFilter(MultiReadHttpServletRequest wrappedRequest, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = RequestUtil.getParamByHeader(SecurityConstant.AUTHORIZATION, wrappedRequest);
         if (!StringUtils.hasText(token)) {
-            LOGGER.warn("No token found in request");
+            LOGGER.warn("No token found in request -> {}", wrappedRequest.getRequestURI());
             SecurityContextHolder.clearContext();
             filterChain.doFilter(wrappedRequest, response);
             return;

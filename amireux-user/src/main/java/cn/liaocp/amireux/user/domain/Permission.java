@@ -2,13 +2,16 @@ package cn.liaocp.amireux.user.domain;
 
 import cn.liaocp.amireux.core.domain.BaseDomain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Chunping.Liao
@@ -18,6 +21,7 @@ import java.util.Set;
 @Entity
 @Table(name = "system_permission")
 @EqualsAndHashCode(callSuper = true)
+@ToString(exclude = {"roles"}, callSuper = true)
 public class Permission extends BaseDomain {
 
 	private static final long serialVersionUID = -5404991409857645267L;
@@ -51,7 +55,7 @@ public class Permission extends BaseDomain {
 
     private Integer sortNum;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "permissions")
-    private Set<Role> roles;
+    @JsonIgnoreProperties(value = { "permissions" }, allowSetters = true)
+    private List<Role> roles = new ArrayList<>();
 }

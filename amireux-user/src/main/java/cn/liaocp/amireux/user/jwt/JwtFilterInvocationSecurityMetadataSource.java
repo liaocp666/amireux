@@ -1,5 +1,6 @@
 package cn.liaocp.amireux.user.jwt;
 
+import cn.hutool.core.util.ReUtil;
 import cn.liaocp.amireux.core.properties.SecurityProperties;
 import cn.liaocp.amireux.user.SecurityConstant;
 import cn.liaocp.amireux.user.domain.Permission;
@@ -58,7 +59,7 @@ public class JwtFilterInvocationSecurityMetadataSource implements FilterInvocati
     private Boolean matchWhiteList(String reqUrl) {
         Set<String> whiteList = securityProperties.getWhiteList();
         for (String whiteUrl : whiteList) {
-            if (StringUtils.contains(whiteUrl, reqUrl)) {
+            if (ReUtil.contains(whiteUrl, reqUrl)) {
                 return Boolean.TRUE;
             }
         }

@@ -2,13 +2,16 @@ package cn.liaocp.amireux.user.domain;
 
 import cn.liaocp.amireux.core.domain.BaseDomain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Chunping.Liao
@@ -18,11 +21,12 @@ import java.util.Set;
 @Entity
 @Table(name = "system_role")
 @EqualsAndHashCode(callSuper = true)
+@ToString(exclude = {"permissions", "users"}, callSuper = true)
 public class Role extends BaseDomain {
 
-	private static final long serialVersionUID = -1100495815072708484L;
+    private static final long serialVersionUID = -1100495815072708484L;
 
-	@Id
+    @Id
     @GeneratedValue(generator = "roleId")
     @GenericGenerator(name = "roleId", strategy = "uuid2")
     private String id;
@@ -42,9 +46,9 @@ public class Role extends BaseDomain {
             inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
     @ApiModelProperty(hidden = true)
     @JsonIgnore
-    private Set<Permission> permissions;
+    private List<Permission> permissions = new ArrayList<>();
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    @JsonIgnoreProperties(value = {"roles"}, allowSetters = true)
+    private List<User> users = new ArrayList<>();
 }

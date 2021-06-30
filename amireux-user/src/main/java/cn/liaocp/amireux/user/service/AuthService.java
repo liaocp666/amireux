@@ -29,6 +29,11 @@ public interface AuthService {
     String login(String username, String password);
 
     /**
+     * sign out
+     */
+    void signOut();
+
+    /**
      * generate Secret in the cache
      *
      * @return secret

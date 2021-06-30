@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 const userApi = {
   Login: '/api/v1/auth/sign_in',
-  Logout: '/api/v1/logout',
+  Logout: '/api/v1/auth/sign_out',
   ForgePassword: '/auth/forge-password',
   Register: '/auth/register',
   twoStepCode: '/auth/2step-code',

@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -163,6 +165,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
 		userDto.setRoles(roleService.findRolesByUsers(List.of(user)));
 		userDto.setPermissions(permissionService.findPermissionsByRoles(userDto.getRoles()));
 		return userDto;
+	}
+
+	@Override
+	public void signOut() {
+		SecurityContextHolder.clearContext();
 	}
 
 	@Override

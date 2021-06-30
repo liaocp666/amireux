@@ -4,11 +4,13 @@ import cn.liaocp.amireux.core.domain.BaseDomain;
 import cn.liaocp.amireux.core.repository.BaseRepository;
 import cn.liaocp.amireux.core.service.BaseService;
 
+import java.io.Serializable;
+
 /**
  * @author Chunping.Liao
  * @date 2021/5/16
  */
-public abstract class BaseServiceImpl<T extends BaseDomain, ID> implements BaseService<T, ID> {
+public abstract class BaseServiceImpl<T extends BaseDomain, ID extends Serializable> implements BaseService<T, ID> {
 
     /**
      * Get the BaseDomainRepository interface implementation object

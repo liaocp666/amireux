@@ -29,6 +29,13 @@ public class AuthController {
         return RestResult.success(authService.register(user));
     }
 
+    @ApiOperation(value = "Sign out")
+    @PostMapping("/sign_out")
+    public RestResult signOut() {
+        authService.signOut();
+        return RestResult.success();
+    }
+
     @PostMapping("/sign_in")
     @ApiOperation(value = "Sign in", notes = "Use username and password to exchange for a token")
     public RestResult login(@Validated @RequestBody SignInParam signInParam) {
