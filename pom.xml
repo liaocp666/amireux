@@ -78,7 +78,7 @@
             </dependency>
             <dependency>
                 <groupId>cn.liaocp</groupId>
-                <artifactId>amireux-user</artifactId>
+                <artifactId>amireux-base</artifactId>
                 <version>${amireux.version}</version>
             </dependency>
         </dependencies>

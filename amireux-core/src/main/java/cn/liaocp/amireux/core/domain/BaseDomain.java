@@ -1,6 +1,5 @@
 package cn.liaocp.amireux.core.domain;
 
-import cn.liaocp.amireux.core.util.DateTimeUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -10,7 +9,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -29,7 +27,7 @@ import java.time.Instant;
 @MappedSuperclass
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @EntityListeners(AuditingEntityListener.class)
-public class BaseDomain implements Serializable {
+public abstract class BaseDomain implements Serializable, IdDomain {
 
 	private static final long serialVersionUID = 3166808065275155473L;
 
