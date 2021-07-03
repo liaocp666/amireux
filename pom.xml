@@ -108,7 +108,7 @@
     <modules>
         <module>amireux-core</module>
         <module>amireux-start</module>
-        <module>amireux-user</module>
+        <module>amireux-base</module>
     </modules>
 
 </project>

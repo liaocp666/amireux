@@ -1,0 +1,24 @@
+package cn.liaocp.amireux.base.service;
+
+import cn.liaocp.amireux.core.service.BaseService;
+import cn.liaocp.amireux.base.domain.Permission;
+import cn.liaocp.amireux.base.domain.Role;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+
+/**
+ * @author Chunping.Liao
+ * @date 2021/5/16
+ */
+public interface PermissionService extends BaseService<Permission, String> {
+
+    Permission findByUrl(String reqUrl);
+
+    List<Permission> findPermissionsByRoles(List<Role> roles);
+
+    List<Permission> findMenuByParentId(String parentId);
+
+    Page<Permission> page(Permission permission);
+
+}

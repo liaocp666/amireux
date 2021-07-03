@@ -35,4 +35,14 @@ public class SecurityProperties {
      */
     private Set<String> whiteList;
 
+    /**
+     * Enable dynamic generation secret
+     */
+    private Boolean secretDynamicEnable;
+
+    /**
+     * If the secretDynamicEnable value is false, then use this secretKey
+     */
+    private String secretKey;
+
 }

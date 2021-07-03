@@ -7,7 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,6 +28,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @MappedSuperclass
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@EntityListeners(AuditingEntityListener.class)
 public class BaseDomain implements Serializable {
 
 	private static final long serialVersionUID = 3166808065275155473L;
@@ -32,39 +38,27 @@ public class BaseDomain implements Serializable {
     @JsonIgnore
     private String createUser;
 
+	@CreationTimestamp
     @Column(nullable = false)
     @JsonIgnore
     private Instant createTime;
 
+	@UpdateTimestamp
+    @Column(nullable = false)
     @JsonIgnore
     private Instant updateTime;
 
+	@LastModifiedBy
     @Column(nullable = false, length = 36, updatable = true)
     @JsonIgnore
     private String updateUser;
 
-    @PrePersist
-    protected void prePersist() {
-        Instant now = DateTimeUtil.now();
-        this.createTime = now;
-        this.updateTime = now;
-        this.createUser = "temp user";
-        this.updateUser = "temp user";
-        // TODO Assign values to createUser and updateUser
-    }
+	@Transient
+    @JsonIgnore
+	private Integer pageNum = 0;
 
-    @PreUpdate
-    protected void preUpdate() {
-        this.updateTime = DateTimeUtil.now();
-        this.updateUser = "temp user";
-        // TODO Assign values and updateUser
-    }
-
-    @PreRemove
-    protected void preRemove() {
-        this.updateTime = DateTimeUtil.now();
-        this.updateUser = "temp user";
-        // TODO Assign values and updateUser
-    }
+    @Transient
+    @JsonIgnore
+	private Integer pageSize = 10;
 
 }

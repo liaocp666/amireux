@@ -7,6 +7,8 @@ amireux:
   security:
     tokenExpireTime: 168
     secretExpireTime: 8760
+    secretDynamicEnable: false
+    secretKey: 123456
     whiteList:
       - /api/v1/auth/sign_in
       - /api/v1/auth/sign_out

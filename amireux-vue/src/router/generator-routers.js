@@ -65,9 +65,9 @@ const notFoundRouter = {
 const rootRouter = {
   key: '',
   id: '9a3be65d-6397-4408-8d4c-c07fd2703ace',
-  name: '首页',
-  path: '/',
-  component: 'BasicLayout',
+  title: '首页',
+  url: '/',
+  template: 'BasicLayout',
   redirect: '/dashboard/workplace',
   meta: {
     title: '首页'
@@ -91,9 +91,9 @@ export const generatorDynamicRouter = (token) => {
         throw new Error(res.msg)
       }
       const menuNav = []
-      const childrenNav = res.data
+      // const childrenNav = res.data
       //      后端数据, 根级树数组,  根级 PID
-      rootRouter.children = childrenNav
+      rootRouter.children = res.data
       menuNav.push(rootRouter)
       const routers = generator(menuNav)
       routers.push(notFoundRouter)
@@ -118,17 +118,18 @@ export const generator = (routerMap, parent) => {
   return routerMap.map(item => {
     const currentRouter = {
       // 如果路由设置了 path，则作为默认 path，否则 路由地址 动态拼接生成如 /dashboard/workplace
-      path: item.path,
+      path: item.url,
       // 路由名称，建议唯一
-      name: item.id,
+      id: item.id,
+      name: item.title,
       // 该路由对应页面的 组件 :方案1
       // component: constantRouterComponents[item.component || item.key],
       // 该路由对应页面的 组件 :方案2 (动态加载)
-      component: (constantRouterComponents[item.component]) || ((resolve) => require([`@/views${item.component}`], resolve)),
+      component: (constantRouterComponents[item.template]) || ((resolve) => require([`@/views${item.template}`], resolve)),
 
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
       meta: {
-        title: item.name,
+        title: item.title,
         icon: item.icon || undefined
       }
     }

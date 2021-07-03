@@ -38,7 +38,7 @@ const user = {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
           const code = response.code
-          const result = 'Bearer ' + response.data
+          const result = response.data
           if (code !== 2000) {
             reject(response)
           } else {
