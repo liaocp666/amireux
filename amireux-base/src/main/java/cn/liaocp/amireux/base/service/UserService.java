@@ -1,5 +1,6 @@
 package cn.liaocp.amireux.base.service;
 
+import cn.liaocp.amireux.base.vo.UserAuthRole;
 import cn.liaocp.amireux.core.service.BaseService;
 import cn.liaocp.amireux.base.domain.User;
 import cn.liaocp.amireux.base.dto.UserDto;
@@ -8,7 +9,7 @@ import cn.liaocp.amireux.base.dto.UserDto;
  * @author Chunping.Liao
  * @date 2021/5/16
  */
-public interface UserService extends BaseService<User, String> {
+public interface UserService extends BaseService<User> {
 
 	/**
 	 * Get the user by username
@@ -44,4 +45,8 @@ public interface UserService extends BaseService<User, String> {
 	User findById(String id);
 
 	UserDto findUserDtoById(String id);
+
+	User save(User user);
+
+	void auth(UserAuthRole userAuthRole);
 }

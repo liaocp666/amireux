@@ -8,6 +8,7 @@ import cn.liaocp.amireux.base.SecurityConstant;
 import cn.liaocp.amireux.base.dto.UserDto;
 import cn.liaocp.amireux.base.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,7 +18,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -57,13 +57,13 @@ public class JwtOncePerRequestFilter extends OncePerRequestFilter {
 
     protected void doFilter(MultiReadHttpServletRequest wrappedRequest, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = RequestUtil.getParamByHeader(SecurityConstant.AUTHORIZATION, wrappedRequest);
-        if (!StringUtils.hasText(token)) {
+        if (!StringUtils.isNotBlank(token)) {
             LOGGER.warn("No token found in request -> {}", wrappedRequest.getRequestURI());
             SecurityContextHolder.clearContext();
             filterChain.doFilter(wrappedRequest, response);
             return;
         }
-        UserDto userDto = userService.getUserDtoByJwtToken(token.replaceAll(SecurityConstant.TOKEN_PREFIX, ""));
+        UserDto userDto = userService.getUserDtoByJwtToken(token.replaceAll(SecurityConstant.TOKEN_PREFIX, StringUtils.EMPTY));
         if (ObjectUtils.isEmpty(userDto)) {
             SecurityContextHolder.clearContext();
             throw new BadCredentialsException(RestResultEnum.UNAUTHORIZED.getMsg());

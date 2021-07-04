@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="编辑权限"
+    title="编辑角色"
     :visible="visible"
     width="900px"
     :confirm-loading="confirmLoading"
@@ -18,7 +18,7 @@
             <a-form-model-item
               label="角色名称"
               prop="name">
-              <a-input v-model="form.name" placeholder="请输入角色名称"/>
+              <a-input v-model="form.title" placeholder="请输入角色名称"/>
             </a-form-model-item>
           </a-col>
           <a-col span="12">
@@ -33,8 +33,13 @@
               </a-radio-group>
             </a-form-model-item>
           </a-col>
-          <a-col span="24">
-            <a-form-model-item label="备注" prop="remark" :labelCol="{ span: 3 }" :wrapperCol="{ span: 20 }">
+          <a-col span="12">
+            <a-form-model-item label="唯一标识" prop="keyword">
+              <a-input v-model="form.keyword" placeholder="请输入唯一标识"/>
+            </a-form-model-item>
+          </a-col>
+          <a-col span="12">
+            <a-form-model-item label="备注" prop="remark">
               <a-input v-model="form.remark" placeholder="请输入备注"/>
             </a-form-model-item>
           </a-col>
@@ -55,7 +60,7 @@ export default {
       visible: false,
       form: {},
       rules: {
-        name: [
+        title: [
           { required: true, message: '请输入角色名称', trigger: 'blur' }
         ],
         enable: [
@@ -88,7 +93,6 @@ export default {
     handleOk () {
       this.confirmLoading = true
       this.$refs.form.validate(valid => {
-        debugger
         if (!valid) {
           return false
         }

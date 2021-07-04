@@ -1,13 +1,25 @@
 import request from '@/utils/request'
 
 const systemRoleApi = {
-  Page: '/api/v1/system/role/page',
-  Delete: '/api/v1/system/role/delete',
-  Add: '/api/v1/system/role/add',
-  Edit: '/api/v1/system/role/edit',
-  Get: '/api/v1/system/role/detail',
-  Auth: '/api/v1/system/role/auth',
-  BatchDelete: '/api/v1/system/role/batch-delete'
+  Page: '/api/v1/role/page',
+  Delete: '/api/v1/role/delete',
+  Add: '/api/v1/role/save',
+  Get: '/api/v1/role/detail',
+  Auth: '/api/v1/role/auth',
+  BatchDelete: '/api/v1/role/delete',
+  QueryByUser: '/api/v1/role/queryByUser'
+}
+
+/**
+ * 查询用户拥有的角色
+ * @param parameter
+ */
+export function queryByUser (parameter) {
+  return request({
+    url: systemRoleApi.QueryByUser,
+    method: 'get',
+    params: parameter
+  })
 }
 
 /**
@@ -42,7 +54,7 @@ export function deleteRole (parameter) {
  */
 export function editRole (data) {
   return request({
-    url: systemRoleApi.Edit,
+    url: systemRoleApi.Add,
     method: 'post',
     data: data
   })

@@ -4,13 +4,12 @@
       <a-button type="primary" icon="plus" @click="$refs.SystemPermissionAdd.preData('0')">添加</a-button>
     </template>
     <a-card>
-      <a-table
+      <s-table
         ref="table"
         :rowKey="(record) => record.id"
+        size="default"
         :columns="columns"
-        :dataSource="dataSource"
-        :loading="loading"
-        :pagination="false"
+        :data="loadData"
       >
         <template slot="type" slot-scope="record">
           <a-tag color="pink" v-if="record.type === 'api'">
@@ -27,7 +26,7 @@
           <a-icon :type="record.icon" v-if="record.icon" />
         </template>
         <template slot="display" slot-scope="record">
-          <a-tag v-if="record.display" color="orange">
+          <a-tag v-if="record.enable" color="orange">
             显示
           </a-tag>
           <a-tag v-else>
@@ -51,7 +50,7 @@
             </a-popconfirm>
           </a-button-group>
         </template>
-      </a-table>
+      </s-table>
     </a-card>
     <system-permission-add ref="SystemPermissionAdd" @success="addSuccess"></system-permission-add>
     <system-permission-edit ref="SystemPermissionEdit" @success="addSuccess"></system-permission-edit>
@@ -59,19 +58,19 @@
 </template>
 
 <script>
-
-import SystemPermissionAdd from './SystemPermissionAdd'
-import { getTree, deletePermission } from '@/api/system/permission/SystemPermission'
-import SystemPermissionEdit from '@/views/system/permission/SystemPermissionEdit'
+import SystemPermissionAdd from '@/views/permission/SystemPermissionAdd'
+import { queryPage, deletePermission } from '@/api/system/permission/SystemPermission'
+import SystemPermissionEdit from '@/views/permission/SystemPermissionEdit'
+import STable from '@/components/Table'
 
 const columns = [
   {
     title: '名称',
-    dataIndex: 'name'
+    dataIndex: 'title'
   },
   {
     title: '地址',
-    dataIndex: 'path'
+    dataIndex: 'url'
   },
   {
     title: '类型',
@@ -104,7 +103,8 @@ export default {
   name: 'SystemPermissionIndex',
   components: {
     SystemPermissionAdd,
-    SystemPermissionEdit
+    SystemPermissionEdit,
+    STable
   },
   data () {
     return {
@@ -113,16 +113,21 @@ export default {
       form: {},
       columns: columns,
       dataSource: [],
-      loading: false
+      loading: false,
+      loadData: parameter => {
+        return queryPage(Object.assign(parameter, this.queryParam))
+          .then(res => {
+            return res.data
+          })
+      }
     }
   },
   created () {
-    this.loadData()
   },
   methods: {
     // 添加成功
     addSuccess () {
-      this.loadData()
+      this.$refs.table.refresh(true)
     },
     // 删除
     doDelete (item) {
@@ -134,15 +139,7 @@ export default {
           return
         }
         this.$message.success('删除成功')
-        this.loadData()
-      })
-    },
-    // 加载表格数据
-    loadData () {
-      this.loading = true
-      getTree().then(resp => {
-        this.loading = false
-        this.dataSource = resp
+        this.$refs.table.refresh(true)
       })
     }
   }

@@ -1,12 +1,12 @@
 import request from '@/utils/request'
 
 const systemPermissionApi = {
-  Tree: '/api/v1/system/permission/tree',
-  Delete: '/api/v1/system/permission/delete',
-  Add: '/api/v1/system/permission/add',
-  Edit: '/api/v1/system/permission/edit',
-  Get: '/api/v1/system/permission/detail',
-  QueryByRole: '/api/v1/system/permission/queryByRole'
+  Page: '/api/v1/permission/page',
+  Delete: '/api/v1/permission/delete',
+  Add: '/api/v1/permission/save',
+  Edit: '/api/v1/permission/edit',
+  Get: '/api/v1/permission/detail',
+  QueryByRole: '/api/v1/permission/queryByRole'
 }
 
 /**
@@ -21,25 +21,35 @@ export function queryByRole (parameter) {
   })
 }
 
-export async function getTree () {
+export async function queryPage (parameter) {
   const res = await request({
-    url: systemPermissionApi.Tree,
-    method: 'get'
+    url: systemPermissionApi.Page,
+    method: 'get',
+    params: parameter
   })
-  res.data = handlerTree(res.data)
-  return res.data
+  return res
 }
 
-function handlerTree (data) {
-  data.forEach(item => {
-    item.title = item.name
-    item.value = item.id
-    item.key = item.id
-    if (item.children) {
-      handlerTree(item.children)
-    }
+export async function getTree (parameter) {
+  const res = await request({
+    url: systemPermissionApi.Page,
+    method: 'get',
+    params: parameter
   })
-  return data
+  const tree = []
+  res.data.content.forEach(item => {
+    tree.push(buildTreeSelect(item))
+  })
+  return tree
+}
+
+export function buildTreeSelect (item) {
+  item.value = item.id
+  item.key = item.id
+  if (item.children && item.children.length > 0) {
+    item.children.forEach(ch => buildTreeSelect(ch))
+  }
+  return item
 }
 
 export function deletePermission (parameter) {
@@ -60,7 +70,7 @@ export function addPermission (parameter) {
 
 export function editPermission (parameter) {
   return request({
-    url: systemPermissionApi.Edit,
+    url: systemPermissionApi.Add,
     method: 'post',
     data: parameter
   })

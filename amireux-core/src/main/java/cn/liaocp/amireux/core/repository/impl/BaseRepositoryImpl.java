@@ -13,11 +13,11 @@ import java.io.Serializable;
  * @author Chunping.Liao
  * @date 2021/6/22
  */
-public class BaseRepositoryImpl<T extends BaseDomain, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
+public class BaseRepositoryImpl<T extends BaseDomain> extends SimpleJpaRepository<T, String> implements BaseRepository <T> {
 
     private final EntityManager entityManager;
 
-    public BaseRepositoryImpl(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager) {
+    public BaseRepositoryImpl(JpaEntityInformation<T, String> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.entityManager = entityManager;
     }

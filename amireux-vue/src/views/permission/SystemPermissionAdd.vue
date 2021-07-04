@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="编辑权限"
+    title="增加权限"
     :visible="visible"
     width="900px"
     :confirm-loading="confirmLoading"
@@ -22,14 +22,16 @@
                 :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
                 :tree-data="treeData"
                 placeholder="请选择上级权限名称"
+                searchPlaceholder="输入名称搜索"
+                show-search
+                :filterTreeNode="treeSelectSearch"
                 :treeDefaultExpandedKeys="['0']"
-              >
-              </a-tree-select>
+              />
             </a-form-model-item>
           </a-col>
           <a-col span="12">
             <a-form-model-item label="名称" prop="name">
-              <a-input v-model="form.name" placeholder="请输入权限名称" />
+              <a-input v-model="form.title" placeholder="请输入权限名称" />
             </a-form-model-item>
           </a-col>
           <a-col span="12">
@@ -49,19 +51,19 @@
           </a-col>
           <a-col span="12">
             <a-form-model-item label="地址" prop="path">
-              <a-input v-model="form.path" placeholder="请输入权限地址" />
+              <a-input v-model="form.url" placeholder="请输入权限地址" />
             </a-form-model-item>
           </a-col>
           <a-col span="12">
             <a-form-model-item label="页面" prop="component">
               <a-col :span="form.type === 'menu' ? 22 : 24">
                 <a-input
-                  v-model="form.component"
+                  v-model="form.template"
                   placeholder="请输入页面位置"
                   v-if="form.type !== 'menu'"
                   :disabled="form.type === 'api'"
                   :addon-before="form.type === 'page' ? '@/views' : ''" />
-                <a-select v-model="form.component" placeholder="请选择页面组件" v-if="form.type === 'menu'">
+                <a-select v-model="form.template" placeholder="请选择页面组件" v-if="form.type === 'menu'">
                   <a-select-option value="RouteView">
                     RouteView
                   </a-select-option>
@@ -98,7 +100,7 @@
           </a-col>
           <a-col span="12">
             <a-form-model-item label="是否显示" prop="display">
-              <a-radio-group v-model="form.display" :disabled="form.type === 'api'">
+              <a-radio-group v-model="form.enable" :disabled="form.type === 'api'">
                 <a-radio :value="true">
                   显示
                 </a-radio>
@@ -113,8 +115,13 @@
               <a-input-number :style="{ width: '100%' }" v-model="form.sortNum" placeholder="请输入序号"></a-input-number>
             </a-form-model-item>
           </a-col>
-          <a-col span="24">
-            <a-form-model-item label="备注" prop="remark" :labelCol="{ span: 3 }" :wrapperCol="{ span: 20 }">
+          <a-col span="12">
+            <a-form-model-item label="唯一标识" prop="remark">
+              <a-input v-model="form.keyword" placeholder="唯一标识" />
+            </a-form-model-item>
+          </a-col>
+          <a-col span="12">
+            <a-form-model-item label="备注" prop="remark">
               <a-input v-model="form.remark" placeholder="请输入备注" />
             </a-form-model-item>
           </a-col>
@@ -130,7 +137,7 @@
 </template>
 
 <script>
-import { getTree, editPermission, getPermission } from '@/api/system/permission/SystemPermission'
+import { getTree, addPermission } from '@/api/system/permission/SystemPermission'
 import IconSelector from '@/components/IconSelector'
 
 export default {
@@ -141,14 +148,15 @@ export default {
       form: {
         type: 'page',
         parentId: '0',
-        display: true
+        enable: true,
+        sortNum: 0
       },
       iconVisible: false,
-      spinning: false,
       visible: false,
       confirmLoading: false,
       labelCol: { span: 5, offset: 1 },
       wrapperCol: { span: 16 },
+      spinning: false,
       treeData: [{
         title: '根权限',
         value: '0',
@@ -159,24 +167,18 @@ export default {
         parentId: [
           { required: true, message: '请选择上级权限', trigger: 'blur' }
         ],
-        name: [
+        title: [
           { required: true, message: '请输入权限名称', trigger: 'blur' }
         ],
-        path: [
+        url: [
           { required: true, message: '请输入权限地址', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
-    // 加载数据
-    loadDate (id) {
-      getPermission({ 'id': id }).then(resp => {
-        this.spinning = false
-        if (resp.code === 2000) {
-          this.form = resp.data
-        }
-      })
+    treeSelectSearch (searchVal, treeNode) {
+      return treeNode.data.props.title.includes(searchVal)
     },
     handleIconChange (e) {
       this.form.icon = e
@@ -187,27 +189,33 @@ export default {
     },
     onSelectType (value, node) {
       if (value === 'menu') {
-        this.form.component = 'RouteView'
-        this.form.display = true
+        this.form.template = 'RouteView'
+        this.form.enable = true
       } else if (value === 'api') {
-        this.form.display = false
-        this.form.component = null
+        this.form.enable = false
+        this.form.template = null
         this.form.icon = null
       } else if (value === 'page') {
-        this.form.component = null
-        this.form.display = true
+        this.form.template = 'RouteView'
+        this.form.enable = true
       } else {
-        this.form.component = null
-        this.form.display = true
+        this.form.template = null
+        this.form.enable = true
       }
     },
-    preData (id) {
+    preData (parentId) {
       this.visible = true
       this.confirmLoading = false
       this.spinning = true
-      getTree().then(resp => {
+      this.form = {
+        type: 'page',
+        parentId: parentId,
+        enable: true,
+        sortNum: 1
+      }
+      getTree({ pageNo: 0, pageSize: 9999 }).then(resp => {
         this.treeData[0].children = resp
-        this.loadDate(id)
+        this.spinning = false
       })
     },
     handleOk () {
@@ -216,8 +224,9 @@ export default {
         if (!valid) {
           return false
         }
-        editPermission(this.form).then(resp => {
+        addPermission(this.form).then(resp => {
           if (resp.code === 2000) {
+            this.preData(this.form.parentId)
             this.visible = false
             this.$emit('success')
           }

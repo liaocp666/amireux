@@ -40,12 +40,12 @@ spring:
         wall:
           config:
             multi-statement-allow: true
-#logging:
-#  level:
-#    org:
-#      hibernate:
-#        SQL: debug
-#        output the parameters of the binding and the result
-#        type:
-#          descriptor:
-#            sql: trace
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        # output the parameters of the binding and the result
+        type:
+          descriptor:
+            sql: trace

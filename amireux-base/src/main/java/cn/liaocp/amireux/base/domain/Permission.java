@@ -23,7 +23,6 @@ import java.util.List;
 @Entity
 @Table(name = "system_permission")
 @EqualsAndHashCode(callSuper = true)
-@ToString(exclude = {"roles"}, callSuper = true)
 public class Permission extends BaseDomain implements TreeDomain<Permission> {
 
     private static final long serialVersionUID = -5404991409857645267L;
@@ -41,13 +40,16 @@ public class Permission extends BaseDomain implements TreeDomain<Permission> {
 
     private String icon;
 
+    private String keyword;
+
     private String remark;
 
     /**
      * @see cn.liaocp.amireux.base.enums.PermissionTypeEnum
      */
     @NotBlank(message = "Permission Type must not be blank")
-    private String permissionType;
+    @Column(name = "permission_type")
+    private String type;
 
     @NotBlank(message = "Access URL must not be blank")
     @Column(unique = true)
@@ -63,8 +65,7 @@ public class Permission extends BaseDomain implements TreeDomain<Permission> {
 
     private Integer sortNum;
 
-    @ManyToMany(mappedBy = "permissions")
-    @JsonIgnore
+    @Transient
     private List<Role> roles = new ArrayList<>();
 
     @Transient

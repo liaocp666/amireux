@@ -21,7 +21,6 @@ import java.util.List;
 @Entity
 @Table(name = "system_user")
 @EqualsAndHashCode(callSuper = true)
-@ToString(exclude = "roles", callSuper = true)
 public class User extends BaseDomain {
 
 	private static final long serialVersionUID = -2782201728914530440L;
@@ -30,6 +29,8 @@ public class User extends BaseDomain {
     @GeneratedValue(generator = "userId")
     @GenericGenerator(name = "userId", strategy = "uuid2")
     private String id;
+
+	private String avatar;
 
     /**
      * login account
@@ -42,8 +43,10 @@ public class User extends BaseDomain {
      * login password
      */
     @Column(nullable = false)
-    @NotBlank(message = "password must not be blank")
     private String password;
+
+    @Transient
+    private String confirmPassword;
 
     private String email;
 
@@ -53,11 +56,6 @@ public class User extends BaseDomain {
     @Column(name = "is_enable", columnDefinition = "tinyint", length = 1, nullable = false)
     private Boolean enable;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "system_user_role",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    @ApiModelProperty(hidden = true)
-    @JsonIgnore
+    @Transient
     private List<Role> roles = new ArrayList<>();
 }

@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="角色授权"
+    title="用户授权"
     :visible="visible"
     width="500px"
     :confirm-loading="confirmLoading"
@@ -11,7 +11,8 @@
       <a-tree
         v-model="checkedKeys"
         checkable
-        autoExpandParent
+        showLine
+        :checkStrictly="checkStrictly"
         :tree-data="treeData"
       />
     </a-spin>
@@ -19,11 +20,11 @@
 </template>
 
 <script>
-import { getTree, queryByRole } from '@/api/system/permission/SystemPermission'
-import { auth } from '@/api/system/role/SystemRole'
+import { queryByUser, queryPage } from '@/api/system/role/SystemRole'
+import { auth } from '@/api/system/user/SystemUser'
 
 export default {
-  name: 'SystemRoleAuth',
+  name: 'SystemUserAuth',
   data () {
     return {
       confirmLoading: false,
@@ -31,22 +32,36 @@ export default {
       spinning: false,
       treeData: [],
       checkedKeys: [],
-      roleId: ''
+      userId: '',
+      checkStrictly: true,
+      enableSwitch: false
     }
   },
   methods: {
-    async preData (roleId) {
+    enableCheckStrictly (value, event) {
+      this.enableSwitch = value
+      this.checkStrictly = !value
+    },
+    preData (userId) {
       this.visible = true
-      this.roleId = roleId
+      this.userId = userId
       this.spinning = true
-      getTree().then(resp => {
-        this.treeData = resp
+      queryPage({ pageNo: 0, pageSize: 9999 }).then(resp => {
+        this.treeData = []
+        resp.data.content.forEach(item => {
+          this.treeData.push({
+            value: item.id,
+            title: item.title,
+            key: item.id
+          })
+        })
         this.loadData()
       })
     },
     // 加载当前角色拥有的权限
     loadData () {
-      queryByRole({ 'roleId': this.roleId }).then(resp => {
+      queryByUser({ 'userId': this.userId }).then(resp => {
+        this.checkedKeys = []
         resp.data.forEach(item => {
           this.checkedKeys.push(item.id)
         })
@@ -54,15 +69,9 @@ export default {
       })
     },
     handleOk () {
-      const permissions = []
-      this.checkedKeys.forEach(item => {
-        permissions.push({
-          'id': item
-        })
-      })
       const data = {
-        'id': this.roleId,
-        'permissions': permissions
+        'userId': this.userId,
+        'roleIds': this.checkedKeys.checked
       }
       this.confirmLoading = true
       auth(data).then(resp => {

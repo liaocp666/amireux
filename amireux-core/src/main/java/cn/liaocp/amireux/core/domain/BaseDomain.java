@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -25,6 +26,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
+@DynamicUpdate
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseDomain implements Serializable, IdDomain {
@@ -37,7 +39,7 @@ public abstract class BaseDomain implements Serializable, IdDomain {
     private String createUser;
 
 	@CreationTimestamp
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @JsonIgnore
     private Instant createTime;
 
@@ -53,7 +55,7 @@ public abstract class BaseDomain implements Serializable, IdDomain {
 
 	@Transient
     @JsonIgnore
-	private Integer pageNum = 0;
+	private Integer pageNo = 0;
 
     @Transient
     @JsonIgnore

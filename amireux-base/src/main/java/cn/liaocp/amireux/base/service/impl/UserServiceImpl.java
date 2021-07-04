@@ -1,6 +1,9 @@
 package cn.liaocp.amireux.base.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.liaocp.amireux.base.domain.Role;
+import cn.liaocp.amireux.base.service.*;
+import cn.liaocp.amireux.base.vo.UserAuthRole;
 import cn.liaocp.amireux.core.cache.AmireuxCache;
 import cn.liaocp.amireux.core.enums.RestResultEnum;
 import cn.liaocp.amireux.core.exception.AmireuxException;
@@ -15,10 +18,6 @@ import cn.liaocp.amireux.base.domain.User;
 import cn.liaocp.amireux.base.dto.UserDto;
 import cn.liaocp.amireux.base.enums.PermissionTypeEnum;
 import cn.liaocp.amireux.base.repository.UserRepository;
-import cn.liaocp.amireux.base.service.AuthService;
-import cn.liaocp.amireux.base.service.PermissionService;
-import cn.liaocp.amireux.base.service.RoleService;
-import cn.liaocp.amireux.base.service.UserService;
 import cn.liaocp.amireux.base.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
@@ -43,8 +43,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl extends BaseServiceImpl<User, String>
-        implements UserService, UserDetailsService, AuthService {
+public class UserServiceImpl extends BaseServiceImpl<User> implements UserService, UserDetailsService, AuthService {
 
     private final UserRepository userRepository;
 
@@ -57,6 +56,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
     private final PermissionService permissionService;
 
     private final RoleService roleService;
+
+    private final UserRoleService userRoleService;
 
     private final static Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -73,7 +74,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
     }
 
     @Override
-    public BaseRepository<User, String> getBaseDomainRepository() {
+    public BaseRepository<User> getBaseDomainRepository() {
         return userRepository;
     }
 
@@ -122,7 +123,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
 
     @Override
     public String generateSecret() {
-        String secret = StringUtils.EMPTY;
+        String secret;
         if (securityProperties.getSecretDynamicEnable()) {
             secret = SecurityUtil.generateSecret();
         } else {
@@ -163,14 +164,15 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
     @Override
     public UserDto findUserDtoById(String id) {
         Assert.hasText(id, "user id must not be blank");
+        User user = new User();
+        user.setId(id);
+        user.setEnable(Boolean.TRUE);
         UserDto userDto = new UserDto();
-        User user = findById(id);
-        if (ObjectUtils.isEmpty(user)) {
-            return userDto;
-        }
-        userDto.setUser(user);
-        userDto.setRoles(roleService.findRolesByUsers(List.of(user)));
-        userDto.setPermissions(permissionService.findPermissionsByRoles(userDto.getRoles()));
+        User dbUser = findOne(user);
+        Assert.notNull(dbUser, "未找到用户");
+        userDto.setUser(dbUser);
+        userDto.setRoles(roleService.findRolesByUserId(user.getId(), Boolean.TRUE));
+        userDto.setPermissions(permissionService.findPermissionsByRoles(userDto.getRoles().stream().map(Role::getId).collect(Collectors.toList())));
         return userDto;
     }
 
@@ -181,8 +183,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
 
     @Override
     public List<Permission> findDynamicMenu() {
-        List<Permission> allPermission = permissionService.findAll()
-                .stream().filter(e -> !StringUtils.equals(e.getPermissionType(), PermissionTypeEnum.API.getType()))
+        List<Permission> allPermission = permissionService.findPermissionsByUserId(SecurityUtil.currentUser().getUser().getId())
+                .stream().filter(e -> !StringUtils.equals(e.getType(), PermissionTypeEnum.API.getType()))
                 .collect(Collectors.toList());
         return TreeUtil.tree(allPermission);
     }
@@ -190,5 +192,26 @@ public class UserServiceImpl extends BaseServiceImpl<User, String>
     @Override
     public User currentUser() {
         return SecurityUtil.currentUser().getUser();
+    }
+
+    @Override
+    public User save(User user) {
+        if (StringUtils.isNotBlank(user.getPassword()) || StringUtils.isNotBlank(user.getConfirmPassword())) {
+            Assert.state(StringUtils.equals(user.getConfirmPassword(), user.getPassword()), "两次密码输入不一致！");
+            user.setPassword(SecurityUtil.encryptPassword(user.getPassword()));
+        }
+        return super.save(user);
+    }
+
+    @Override
+    public void auth(UserAuthRole userAuthRole) {
+        userRoleService.save(userAuthRole);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteByIds(List<String> ids) {
+        super.deleteByIds(ids);
+        userRoleService.deleteByUserIds(ids);
     }
 }

@@ -12,13 +12,13 @@ import java.util.List;
  * @author Chunping.Liao
  * @date 2021/5/16
  */
-public interface PermissionRepository extends BaseRepository<Permission, String> {
+public interface PermissionRepository extends BaseRepository<Permission> {
 
     Permission findByUrl(String url);
 
-    List<Permission> findPermissionsByRolesIn(List<Role> roles);
-
-    @Query("SELECT p FROM Permission p WHERE p.parentId = :parentId AND p.enable = true AND p.permissionType <> 'api'")
+    @Query("SELECT p FROM Permission p WHERE p.parentId = :parentId AND p.enable = true AND p.type <> 'api'")
     List<Permission> findMenuByParentId(@Param("parentId") String parentId);
 
+    @Query("SELECT p FROM UserRole ur LEFT JOIN RolePermission rp ON ur.roleId = rp.roleId LEFT JOIN Permission p ON p.id = rp.permissionId WHERE ur.userId = :userId ORDER BY p.sortNum ASC, p.createTime DESC")
+    List<Permission> findPermissionsByUserId(@Param("userId") String userId);
 }

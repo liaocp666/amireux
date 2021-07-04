@@ -10,8 +10,6 @@ import java.util.List;
  * @author Chunping.Liao
  * @date 2021/5/30
  */
-public interface RoleRepository extends BaseRepository<Role, String> {
-
-    List<Role> findByUsersIn(List<User> users);
+public interface RoleRepository extends BaseRepository<Role> {
 
 }

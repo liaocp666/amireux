@@ -63,12 +63,6 @@ request.interceptors.request.use(config => {
 
 // response interceptor
 request.interceptors.response.use((response) => {
-  if (response.data.code === 5000) {
-    notification.error({
-      message: '错误',
-      description: response.data.msg
-    })
-  }
   if (response.data.code === 5003 || response.data.code === 5002) {
     notification.error({
       message: '错误',
@@ -80,6 +74,12 @@ request.interceptors.response.use((response) => {
         window.location.reload()
       })
     }
+  }
+  if (response.data.code !== 2000) {
+    notification.error({
+      message: '错误',
+      description: response.data.msg
+    })
   }
   return response.data
 }, errorHandler)

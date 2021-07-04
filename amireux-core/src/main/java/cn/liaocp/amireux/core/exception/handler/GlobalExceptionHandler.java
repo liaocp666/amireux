@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,13 +27,13 @@ public class GlobalExceptionHandler {
         return RestResult.fail(RestResultEnum.FAIL.getMsg());
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public RestResult illegalArgumentException(IllegalArgumentException e) {
+    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
+    public RestResult illegalArgumentException(Exception e) {
         log.warn("System exception", e);
         return RestResult.fail(e.getMessage());
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler({MethodArgumentNotValidException.class})
     public RestResult methodArgumentNotValidException(MethodArgumentNotValidException e) {
         List<String> errors = e.getBindingResult().getFieldErrors().stream().map(FieldError::getDefaultMessage).collect(Collectors.toList());
         return RestResult.fail(String.join(",", errors));

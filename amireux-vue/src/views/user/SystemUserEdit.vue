@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="添加用户"
+    title="编辑用户"
     :visible="visible"
     width="900px"
     :confirm-loading="confirmLoading"
@@ -14,7 +14,6 @@
         :rules="rules"
         :wrapper-col="wrapperCol"
       >
-        <a-col span="12"></a-col>
         <a-col span="12">
           <a-form-model-item label="用户名" prop="username">
             <a-input v-model="form.username" placeholder="请输入用户名" />
@@ -36,17 +35,12 @@
           </a-form-model-item>
         </a-col>
         <a-col span="12">
-          <a-form-model-item label="昵称" prop="nickname">
-            <a-input v-model="form.nickname" placeholder="请输入昵称" />
-          </a-form-model-item>
-        </a-col>
-        <a-col span="12">
           <a-form-model-item label="邮箱" prop="email">
             <a-input v-model="form.email" placeholder="请输入邮箱" />
           </a-form-model-item>
         </a-col>
         <a-col span="12">
-          <a-form-model-item label="启用" prop="enable">
+          <a-form-model-item label="状态" prop="enable">
             <a-radio-group v-model="form.enable">
               <a-radio :value="true">
                 启用
@@ -63,25 +57,49 @@
 </template>
 
 <script>
+import { adduser, detail } from '@/api/system/user/SystemUser'
+
 export default {
-  name: 'SystemUserAdd',
+  name: 'SystemUserEdit',
   data () {
     return {
       visible: false,
       confirmLoading: false,
-      form: {},
+      form: {
+        enable: true
+      },
       labelCol: { span: 5, offset: 1 },
       wrapperCol: { span: 16 },
-      rules: {}
+      rules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
-    preData () {
-      this.visible = true
-      this.confirmLoading = false
+    preData (id) {
+      detail({ 'id': id }).then(resp => {
+        this.form = resp.data
+        this.visible = true
+        this.confirmLoading = false
+      })
     },
     handleOk () {
-
+      this.confirmLoading = true
+      this.$refs.form.validate(valid => {
+        if (!valid) {
+          return false
+        }
+        adduser(this.form).then(resp => {
+          if (resp.code === 2000) {
+            this.visible = false
+            this.$emit('success')
+          }
+        }).finally(() => {
+          this.confirmLoading = false
+        })
+      })
     },
     handleCancel () {
       this.visible = false

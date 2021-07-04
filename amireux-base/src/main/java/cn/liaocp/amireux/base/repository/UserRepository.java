@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
  * @author Chunping.Liao
  * @date 2021/5/16
  */
-public interface UserRepository extends BaseRepository<User, String> {
+public interface UserRepository extends BaseRepository<User> {
 
     /**
      * Get the user by username
@@ -26,10 +26,4 @@ public interface UserRepository extends BaseRepository<User, String> {
      * @return Returns true if it already exists, false if it doesn't
      */
     Boolean existsUserByUsername(String username);
-
-    @Query("SELECT u FROM User u JOIN FETCH u.roles WHERE u.username = :username")
-    User findWithRolesByUsername(@Param("username") String username);
-
-    @Query("SELECT u FROM User u JOIN FETCH u.roles WHERE u.id = :id")
-    User findWithRolesById(@Param("id") String id);
 }

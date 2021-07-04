@@ -11,7 +11,7 @@ import java.util.List;
  * @author Chunping.Liao
  * @date 2021/5/16
  */
-public interface BaseService<T extends BaseDomain, ID> {
+public interface BaseService<T extends BaseDomain> {
 
     /**
      * Save or update the domain by id
@@ -28,6 +28,12 @@ public interface BaseService<T extends BaseDomain, ID> {
      */
     List<T> findAll();
 
+    T findById(String id);
+
+    void deleteById(String id);
+
+    void deleteByIds(List<String> ids);
+
     /**
      * page query
      *
@@ -36,5 +42,7 @@ public interface BaseService<T extends BaseDomain, ID> {
      * @return
      */
     Page<T> page(Example<T> example, Pageable pageable);
+
+    T findOne(T t);
 
 }

@@ -1,15 +1,17 @@
 package cn.liaocp.amireux.base.service.impl;
 
+import cn.liaocp.amireux.base.service.RolePermissionService;
 import cn.liaocp.amireux.core.repository.BaseRepository;
 import cn.liaocp.amireux.core.service.impl.BaseServiceImpl;
 import cn.liaocp.amireux.core.util.TreeUtil;
 import cn.liaocp.amireux.base.domain.Permission;
-import cn.liaocp.amireux.base.domain.Role;
 import cn.liaocp.amireux.base.repository.PermissionRepository;
 import cn.liaocp.amireux.base.service.PermissionService;
 import lombok.RequiredArgsConstructor;
+import org.assertj.core.util.Lists;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,12 +21,14 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class PermissionServiceImpl extends BaseServiceImpl<Permission, String> implements PermissionService {
+public class PermissionServiceImpl extends BaseServiceImpl<Permission> implements PermissionService {
 
     private final PermissionRepository permissionRepository;
 
+    private final RolePermissionService rolePermissionService;
+
     @Override
-    public BaseRepository<Permission, String> getBaseDomainRepository() {
+    public BaseRepository<Permission> getBaseDomainRepository() {
         return permissionRepository;
     }
 
@@ -34,8 +38,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, String> i
     }
 
     @Override
-    public List<Permission> findPermissionsByRoles(List<Role> roles) {
-        return permissionRepository.findPermissionsByRolesIn(roles);
+    public List<Permission> findPermissionsByRoles(List<String> roles) {
+        return rolePermissionService.findPermissionsByRoles(roles);
     }
 
     @Override
@@ -48,7 +52,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, String> i
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withMatcher("parentId", ExampleMatcher.GenericPropertyMatchers.exact())
                 .withMatcher("title", ExampleMatcher.GenericPropertyMatchers.contains());
-        PageRequest pageRequest = PageRequest.of(permission.getPageNum(), permission.getPageSize(),
+        PageRequest pageRequest = PageRequest.of(permission.getPageNo(), permission.getPageSize(),
                 Sort.by(Sort.Order.asc("sortNum"), Sort.Order.asc("createTime")));
         Page<Permission> page = super.page(Example.of(permission, matcher), pageRequest);
         List<Permission> all = findAll();
@@ -59,5 +63,17 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, String> i
     @Override
     public List<Permission> findAll() {
         return permissionRepository.findAll(Sort.by(Sort.Order.asc("sortNum"), Sort.Order.desc("createTime")));
+    }
+
+    @Override
+    public List<Permission> findPermissionsByUserId(String userId) {
+        return permissionRepository.findPermissionsByUserId(userId);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteById(String id) {
+        permissionRepository.deleteById(id);
+        rolePermissionService.deleteByPermission(Lists.list(id));
     }
 }

@@ -2,13 +2,12 @@ package cn.liaocp.amireux.base.domain;
 
 import cn.liaocp.amireux.core.domain.BaseDomain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,6 @@ import java.util.List;
 @Entity
 @Table(name = "system_role")
 @EqualsAndHashCode(callSuper = true)
-@ToString(exclude = {"permissions", "users"}, callSuper = true)
 public class Role extends BaseDomain {
 
     private static final long serialVersionUID = -1100495815072708484L;
@@ -32,22 +30,18 @@ public class Role extends BaseDomain {
 
     private String keyword;
 
+    @NotBlank(message = "Title must not be blank")
+    @Column(nullable = false)
     private String title;
 
     private String remark;
 
     @Column(name = "is_enable", columnDefinition = "tinyint", length = 1, nullable = false)
-    private String enable;
+    private Boolean enable;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "system_role_permission",
-            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
-    @ApiModelProperty(hidden = true)
-    @JsonIgnore
+    @Transient
     private List<Permission> permissions = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "roles")
-    @JsonIgnore
+    @Transient
     private List<User> users = new ArrayList<>();
 }

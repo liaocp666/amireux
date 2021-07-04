@@ -1,13 +1,13 @@
 import request from '@/utils/request'
 
 const systemUserApi = {
-  Page: '/api/v1/system/user/page',
-  Delete: '/api/v1/system/user/delete',
-  Add: '/api/v1/system/user/add',
-  Edit: '/api/v1/system/user/edit',
-  Get: '/api/v1/system/user/detail',
-  Auth: '/api/v1/system/user/auth',
-  BatchDelete: '/api/v1/system/user/batch-delete'
+  Page: '/api/v1/user/page',
+  Delete: '/api/v1/user/delete',
+  Add: '/api/v1/user/save',
+  Edit: '/api/v1/user/edit',
+  Get: '/api/v1/user/detail',
+  Auth: '/api/v1/user/auth',
+  BatchDelete: '/api/v1/user/delete'
 }
 
 /**
@@ -88,8 +88,8 @@ export function queryPage (parameter) {
 }
 
 /**
- * 角色授权
- * @param data   角色id，以及权限内容
+ * 用户授权
+ * @param data   用户id，以及角色id
  * @returns {AxiosPromise}
  */
 export function auth (data) {
