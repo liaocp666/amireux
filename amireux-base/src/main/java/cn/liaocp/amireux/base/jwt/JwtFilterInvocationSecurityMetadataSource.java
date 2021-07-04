@@ -1,10 +1,10 @@
 package cn.liaocp.amireux.base.jwt;
 
 import cn.hutool.core.util.ReUtil;
-import cn.liaocp.amireux.core.properties.SecurityProperties;
 import cn.liaocp.amireux.base.SecurityConstant;
 import cn.liaocp.amireux.base.domain.Permission;
 import cn.liaocp.amireux.base.service.PermissionService;
+import cn.liaocp.amireux.core.properties.SecurityProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.ConfigAttribute;

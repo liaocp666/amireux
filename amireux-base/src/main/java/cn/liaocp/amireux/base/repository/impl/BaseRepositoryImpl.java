@@ -1,19 +1,17 @@
-package cn.liaocp.amireux.core.repository.impl;
+package cn.liaocp.amireux.base.repository.impl;
 
-import cn.liaocp.amireux.core.domain.BaseDomain;
-import cn.liaocp.amireux.core.repository.BaseRepository;
-import javax.persistence.EntityManager;
-
+import cn.liaocp.amireux.base.domain.BaseDomain;
+import cn.liaocp.amireux.base.repository.BaseRepository;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
-import java.io.Serializable;
+import javax.persistence.EntityManager;
 
 /**
  * @author Chunping.Liao
  * @date 2021/6/22
  */
-public class BaseRepositoryImpl<T extends BaseDomain> extends SimpleJpaRepository<T, String> implements BaseRepository <T> {
+public class BaseRepositoryImpl<T extends BaseDomain> extends SimpleJpaRepository<T, String> implements BaseRepository<T> {
 
     private final EntityManager entityManager;
 

@@ -18,6 +18,10 @@ amireux:
 spring:
   profiles:
     active: dev
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
   jpa:
     hibernate:
       ddl-auto: update

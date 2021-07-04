@@ -13,9 +13,9 @@ import java.util.List;
 @Data
 public class DynamicMenu implements Serializable {
 
-	private static final long serialVersionUID = -3179956432185903007L;
+    private static final long serialVersionUID = -3179956432185903007L;
 
-	private String id;
+    private String id;
 
     private String title;
 

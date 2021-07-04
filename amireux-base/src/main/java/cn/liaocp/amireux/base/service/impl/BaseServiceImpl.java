@@ -1,12 +1,15 @@
-package cn.liaocp.amireux.core.service.impl;
+package cn.liaocp.amireux.base.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import cn.liaocp.amireux.core.domain.BaseDomain;
-import cn.liaocp.amireux.core.repository.BaseRepository;
-import cn.liaocp.amireux.core.service.BaseService;
+import cn.liaocp.amireux.base.domain.BaseDomain;
+import cn.liaocp.amireux.base.repository.BaseRepository;
+import cn.liaocp.amireux.base.service.BaseService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

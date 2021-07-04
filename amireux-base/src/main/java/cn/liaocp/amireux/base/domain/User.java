@@ -1,11 +1,7 @@
 package cn.liaocp.amireux.base.domain;
 
-import cn.liaocp.amireux.core.domain.BaseDomain;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -23,14 +19,14 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseDomain {
 
-	private static final long serialVersionUID = -2782201728914530440L;
+    private static final long serialVersionUID = -2782201728914530440L;
 
-	@Id
+    @Id
     @GeneratedValue(generator = "userId")
     @GenericGenerator(name = "userId", strategy = "uuid2")
     private String id;
 
-	private String avatar;
+    private String avatar;
 
     /**
      * login account

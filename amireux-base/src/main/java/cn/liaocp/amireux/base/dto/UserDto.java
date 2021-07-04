@@ -14,10 +14,10 @@ import java.util.List;
  */
 @Data
 public class UserDto implements Serializable {
-	
-	private static final long serialVersionUID = -2405739251110542062L;
 
-	private User user;
+    private static final long serialVersionUID = -2405739251110542062L;
+
+    private User user;
 
     private List<Role> roles;
 

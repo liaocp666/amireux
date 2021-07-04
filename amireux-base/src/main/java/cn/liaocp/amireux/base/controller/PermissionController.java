@@ -1,15 +1,14 @@
 package cn.liaocp.amireux.base.controller;
 
-import cn.liaocp.amireux.core.AmireuxConstant;
-import cn.liaocp.amireux.core.domain.RestResult;
 import cn.liaocp.amireux.base.domain.Permission;
 import cn.liaocp.amireux.base.service.PermissionService;
+import cn.liaocp.amireux.core.AmireuxConstant;
+import cn.liaocp.amireux.core.domain.RestResult;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.util.Lists;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.stream.Collectors;
 
 /**
  * @author Chunping.Liao

@@ -1,10 +1,8 @@
-package cn.liaocp.amireux.core.repository;
+package cn.liaocp.amireux.base.repository;
 
-import cn.liaocp.amireux.core.domain.BaseDomain;
+import cn.liaocp.amireux.base.domain.BaseDomain;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-
-import java.io.Serializable;
 
 /**
  * @author Chunping.Liao

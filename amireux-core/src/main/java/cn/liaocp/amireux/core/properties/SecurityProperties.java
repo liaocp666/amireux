@@ -1,11 +1,10 @@
 package cn.liaocp.amireux.core.properties;
 
 import lombok.Data;
-
-import java.util.Set;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 /**
  * Load application.yml file configuration

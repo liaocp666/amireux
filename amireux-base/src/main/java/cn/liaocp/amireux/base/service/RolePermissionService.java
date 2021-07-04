@@ -1,9 +1,7 @@
 package cn.liaocp.amireux.base.service;
 
 import cn.liaocp.amireux.base.domain.Permission;
-import cn.liaocp.amireux.base.domain.Role;
 import cn.liaocp.amireux.base.domain.RolePermission;
-import cn.liaocp.amireux.core.service.BaseService;
 
 import java.util.List;
 

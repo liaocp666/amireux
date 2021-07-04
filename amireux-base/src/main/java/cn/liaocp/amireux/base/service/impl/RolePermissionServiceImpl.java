@@ -1,18 +1,14 @@
 package cn.liaocp.amireux.base.service.impl;
 
 import cn.liaocp.amireux.base.domain.Permission;
-import cn.liaocp.amireux.base.domain.Role;
 import cn.liaocp.amireux.base.domain.RolePermission;
+import cn.liaocp.amireux.base.repository.BaseRepository;
 import cn.liaocp.amireux.base.repository.RolePermissionRepository;
 import cn.liaocp.amireux.base.service.RolePermissionService;
-import cn.liaocp.amireux.core.repository.BaseRepository;
-import cn.liaocp.amireux.core.service.impl.BaseServiceImpl;
-import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

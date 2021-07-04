@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "amireux")
 public class AmireuxProperties {
 
-	/**
-	 * Name of the project
-	 */
+    /**
+     * Name of the project
+     */
     private String name = "Amireux";
 
     /**

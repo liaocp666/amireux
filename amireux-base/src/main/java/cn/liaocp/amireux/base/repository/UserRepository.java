@@ -1,9 +1,6 @@
 package cn.liaocp.amireux.base.repository;
 
-import cn.liaocp.amireux.core.repository.BaseRepository;
 import cn.liaocp.amireux.base.domain.User;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 /**
  * @author Chunping.Liao

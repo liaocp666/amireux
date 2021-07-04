@@ -3,16 +3,15 @@ package cn.liaocp.amireux.base.controller;
 import cn.liaocp.amireux.base.domain.User;
 import cn.liaocp.amireux.base.service.UserService;
 import cn.liaocp.amireux.base.vo.UserAuthRole;
+import cn.liaocp.amireux.core.AmireuxConstant;
 import cn.liaocp.amireux.core.domain.RestResult;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-
-import cn.liaocp.amireux.core.AmireuxConstant;
-import lombok.RequiredArgsConstructor;
 
 import javax.validation.Valid;
 import java.util.List;

@@ -2,11 +2,10 @@ package cn.liaocp.amireux.base.service.impl;
 
 import cn.liaocp.amireux.base.domain.Role;
 import cn.liaocp.amireux.base.domain.UserRole;
+import cn.liaocp.amireux.base.repository.BaseRepository;
 import cn.liaocp.amireux.base.repository.UserRoleRepository;
 import cn.liaocp.amireux.base.service.UserRoleService;
 import cn.liaocp.amireux.base.vo.UserAuthRole;
-import cn.liaocp.amireux.core.repository.BaseRepository;
-import cn.liaocp.amireux.core.service.impl.BaseServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

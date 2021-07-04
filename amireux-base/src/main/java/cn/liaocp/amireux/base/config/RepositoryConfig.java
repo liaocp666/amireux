@@ -1,6 +1,6 @@
-package cn.liaocp.amireux.core.config;
+package cn.liaocp.amireux.base.config;
 
-import cn.liaocp.amireux.core.repository.impl.BaseRepositoryImpl;
+import cn.liaocp.amireux.base.repository.impl.BaseRepositoryImpl;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 

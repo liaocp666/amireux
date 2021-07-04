@@ -2,7 +2,6 @@ package cn.liaocp.amireux.base.repository;
 
 import cn.liaocp.amireux.base.domain.Role;
 import cn.liaocp.amireux.base.domain.UserRole;
-import cn.liaocp.amireux.core.repository.BaseRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

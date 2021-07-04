@@ -8,14 +8,14 @@ import cn.liaocp.amireux.core.enums.RestResultEnum;
  */
 public class AmireuxException extends RuntimeException {
 
-	private static final long serialVersionUID = 1379298486940312833L;
+    private static final long serialVersionUID = 1379298486940312833L;
 
-	public AmireuxException() {
-		super();
-	}
+    public AmireuxException() {
+        super();
+    }
 
-	public AmireuxException(RestResultEnum restResultEnum) {
-		super(restResultEnum.getMsg());
-	}
+    public AmireuxException(RestResultEnum restResultEnum) {
+        super(restResultEnum.getMsg());
+    }
 
 }

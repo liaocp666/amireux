@@ -1,8 +1,6 @@
 package cn.liaocp.amireux.base.service;
 
-import cn.liaocp.amireux.core.service.BaseService;
 import cn.liaocp.amireux.base.domain.Permission;
-import cn.liaocp.amireux.base.domain.Role;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

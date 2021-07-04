@@ -3,13 +3,11 @@ package cn.liaocp.amireux.core.exception.handler;
 import cn.liaocp.amireux.core.domain.RestResult;
 import cn.liaocp.amireux.core.enums.RestResultEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 

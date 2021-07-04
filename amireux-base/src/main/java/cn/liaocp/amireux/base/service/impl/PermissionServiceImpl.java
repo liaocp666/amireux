@@ -1,12 +1,11 @@
 package cn.liaocp.amireux.base.service.impl;
 
-import cn.liaocp.amireux.base.service.RolePermissionService;
-import cn.liaocp.amireux.core.repository.BaseRepository;
-import cn.liaocp.amireux.core.service.impl.BaseServiceImpl;
-import cn.liaocp.amireux.core.util.TreeUtil;
 import cn.liaocp.amireux.base.domain.Permission;
+import cn.liaocp.amireux.base.repository.BaseRepository;
 import cn.liaocp.amireux.base.repository.PermissionRepository;
 import cn.liaocp.amireux.base.service.PermissionService;
+import cn.liaocp.amireux.base.service.RolePermissionService;
+import cn.liaocp.amireux.core.util.TreeUtil;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.util.Lists;
 import org.springframework.data.domain.*;

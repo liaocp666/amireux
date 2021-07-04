@@ -1,6 +1,6 @@
-package cn.liaocp.amireux.core.service;
+package cn.liaocp.amireux.base.service;
 
-import cn.liaocp.amireux.core.domain.BaseDomain;
+import cn.liaocp.amireux.base.domain.BaseDomain;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

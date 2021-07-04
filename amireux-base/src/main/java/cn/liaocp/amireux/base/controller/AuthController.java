@@ -1,11 +1,11 @@
 package cn.liaocp.amireux.base.controller;
 
-import cn.liaocp.amireux.core.AmireuxConstant;
-import cn.liaocp.amireux.core.domain.RestResult;
 import cn.liaocp.amireux.base.SecurityConstant;
 import cn.liaocp.amireux.base.domain.User;
 import cn.liaocp.amireux.base.service.AuthService;
 import cn.liaocp.amireux.base.vo.SignInParam;
+import cn.liaocp.amireux.core.AmireuxConstant;
+import cn.liaocp.amireux.core.domain.RestResult;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -48,11 +48,11 @@ public class AuthController {
     public RestResult menu() {
         return RestResult.success(authService.findDynamicMenu());
     }
-    
+
     @GetMapping("/current")
     @ApiOperation(value = "Current User", notes = "jwt in request to get user information")
-	public RestResult currentUser() {
-		return RestResult.success(authService.currentUser());
-	}
+    public RestResult currentUser() {
+        return RestResult.success(authService.currentUser());
+    }
 
 }

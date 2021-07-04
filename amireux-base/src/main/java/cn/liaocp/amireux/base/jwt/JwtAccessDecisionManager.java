@@ -1,7 +1,7 @@
 package cn.liaocp.amireux.base.jwt;
 
-import cn.liaocp.amireux.core.enums.RestResultEnum;
 import cn.liaocp.amireux.base.SecurityConstant;
+import cn.liaocp.amireux.core.enums.RestResultEnum;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -18,7 +18,7 @@ import java.util.Collection;
  */
 @Component
 public class JwtAccessDecisionManager implements AccessDecisionManager {
-	
+
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
         for (ConfigAttribute configAttribute : configAttributes) {

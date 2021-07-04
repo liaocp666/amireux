@@ -49,14 +49,15 @@ public interface AuthService {
 
     /**
      * Find menu by current user
+     *
      * @return
      */
     List<Permission> findDynamicMenu();
-    
+
     /**
-	 * jwt in request to get user information
-	 * 
-	 * @return
-	 */
-	User currentUser();
+     * jwt in request to get user information
+     *
+     * @return
+     */
+    User currentUser();
 }

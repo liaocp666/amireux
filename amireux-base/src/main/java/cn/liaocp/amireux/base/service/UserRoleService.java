@@ -3,8 +3,6 @@ package cn.liaocp.amireux.base.service;
 import cn.liaocp.amireux.base.domain.Role;
 import cn.liaocp.amireux.base.domain.UserRole;
 import cn.liaocp.amireux.base.vo.UserAuthRole;
-import cn.liaocp.amireux.core.service.BaseService;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 

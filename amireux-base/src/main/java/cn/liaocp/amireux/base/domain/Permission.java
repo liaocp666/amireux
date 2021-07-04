@@ -1,12 +1,9 @@
 package cn.liaocp.amireux.base.domain;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.liaocp.amireux.core.domain.BaseDomain;
 import cn.liaocp.amireux.core.domain.TreeDomain;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.util.ObjectUtils;
 

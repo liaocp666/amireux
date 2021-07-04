@@ -1,7 +1,6 @@
 package cn.liaocp.amireux.base.controller;
 
 import cn.liaocp.amireux.base.domain.Role;
-import cn.liaocp.amireux.base.service.PermissionService;
 import cn.liaocp.amireux.base.service.RoleService;
 import cn.liaocp.amireux.base.vo.RoleAuthPermission;
 import cn.liaocp.amireux.core.AmireuxConstant;

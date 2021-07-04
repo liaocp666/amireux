@@ -1,13 +1,12 @@
 package cn.liaocp.amireux.base.service.impl;
 
+import cn.liaocp.amireux.base.domain.Role;
+import cn.liaocp.amireux.base.repository.BaseRepository;
+import cn.liaocp.amireux.base.repository.RoleRepository;
 import cn.liaocp.amireux.base.service.RolePermissionService;
+import cn.liaocp.amireux.base.service.RoleService;
 import cn.liaocp.amireux.base.service.UserRoleService;
 import cn.liaocp.amireux.base.vo.RoleAuthPermission;
-import cn.liaocp.amireux.core.repository.BaseRepository;
-import cn.liaocp.amireux.core.service.impl.BaseServiceImpl;
-import cn.liaocp.amireux.base.domain.Role;
-import cn.liaocp.amireux.base.repository.RoleRepository;
-import cn.liaocp.amireux.base.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,7 +1,5 @@
 package cn.liaocp.amireux.base.domain;
 
-import cn.liaocp.amireux.core.domain.BaseDomain;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;

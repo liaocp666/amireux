@@ -1,5 +1,6 @@
-package cn.liaocp.amireux.core.domain;
+package cn.liaocp.amireux.base.domain;
 
+import cn.liaocp.amireux.core.domain.IdDomain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,10 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -31,34 +35,41 @@ import java.time.Instant;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseDomain implements Serializable, IdDomain {
 
-	private static final long serialVersionUID = 3166808065275155473L;
+    private static final long serialVersionUID = 3166808065275155473L;
 
-	@Column(nullable = false, length = 36, updatable = false)
+    @Column(nullable = false, length = 36, updatable = false)
     @CreatedBy
     @JsonIgnore
     private String createUser;
 
-	@CreationTimestamp
+    @CreationTimestamp
     @Column(nullable = false, updatable = false)
     @JsonIgnore
     private Instant createTime;
 
-	@UpdateTimestamp
+    @UpdateTimestamp
     @Column(nullable = false)
     @JsonIgnore
     private Instant updateTime;
 
-	@LastModifiedBy
+    @LastModifiedBy
     @Column(nullable = false, length = 36, updatable = true)
     @JsonIgnore
     private String updateUser;
 
-	@Transient
+    @Transient
     @JsonIgnore
-	private Integer pageNo = 0;
+    private Integer pageNo;
 
     @Transient
     @JsonIgnore
-	private Integer pageSize = 10;
+    private Integer pageSize = 10;
 
+    public void setPageNo(Integer pageNo) {
+        if (pageNo > 0) {
+            this.pageNo = pageNo - 1;
+            return;
+        }
+        this.pageNo = pageNo;
+    }
 }
