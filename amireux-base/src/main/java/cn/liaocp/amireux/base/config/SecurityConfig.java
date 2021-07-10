@@ -17,7 +17,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 @EnableWebSecurity
 @Configuration

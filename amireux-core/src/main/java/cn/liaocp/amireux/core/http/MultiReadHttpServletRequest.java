@@ -9,11 +9,10 @@ import java.io.*;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/30
  */
 public class MultiReadHttpServletRequest extends HttpServletRequestWrapper {
 
-    private byte[] cachedBody;
+    private final byte[] cachedBody;
 
     public MultiReadHttpServletRequest(HttpServletRequest request) throws IOException {
         super(request);
@@ -22,12 +21,12 @@ public class MultiReadHttpServletRequest extends HttpServletRequestWrapper {
     }
 
     @Override
-    public ServletInputStream getInputStream() throws IOException {
+    public ServletInputStream getInputStream() {
         return new CachedBodyServletInputStream(this.cachedBody);
     }
 
     @Override
-    public BufferedReader getReader() throws IOException {
+    public BufferedReader getReader() {
         // Create a reader from cachedContent
         // and return it
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.cachedBody);

@@ -5,7 +5,6 @@ import lombok.Getter;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 @Getter
 @AllArgsConstructor

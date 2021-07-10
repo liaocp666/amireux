@@ -16,7 +16,6 @@ import java.util.List;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 @Service
 @RequiredArgsConstructor
@@ -39,11 +38,6 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
     @Override
     public List<Permission> findPermissionsByRoles(List<String> roles) {
         return rolePermissionService.findPermissionsByRoles(roles);
-    }
-
-    @Override
-    public List<Permission> findMenuByParentId(String parentId) {
-        return permissionRepository.findMenuByParentId(parentId);
     }
 
     @Override

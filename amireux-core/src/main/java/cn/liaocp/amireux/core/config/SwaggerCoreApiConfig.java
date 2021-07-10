@@ -16,7 +16,6 @@ import java.time.temporal.Temporal;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/17
  */
 @Configuration
 @EnableOpenApi

@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 /**
  * @author Chunping.Liao
- * @date 2021/7/4
  */
 @Service
 @RequiredArgsConstructor
@@ -48,11 +47,11 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermission> i
 
     @Override
     public void deleteByRoleIds(List<String> roleIds) {
-        roleIds.forEach(e -> rolePermissionRepository.deleteByRoleId(e));
+        roleIds.forEach(rolePermissionRepository::deleteByRoleId);
     }
 
     @Override
     public void deleteByPermission(List<String> permissionIds) {
-        permissionIds.forEach(e -> rolePermissionRepository.deleteByPermissionId(e));
+        permissionIds.forEach(rolePermissionRepository::deleteByPermissionId);
     }
 }

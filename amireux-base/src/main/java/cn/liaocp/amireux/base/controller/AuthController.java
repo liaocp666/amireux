@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 @RestController
 @RequiredArgsConstructor

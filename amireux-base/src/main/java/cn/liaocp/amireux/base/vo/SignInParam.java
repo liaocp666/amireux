@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 @Data
 public class SignInParam implements Serializable {

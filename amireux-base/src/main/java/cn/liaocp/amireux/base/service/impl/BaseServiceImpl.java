@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 public abstract class BaseServiceImpl<T extends BaseDomain> implements BaseService<T> {
 
@@ -58,7 +57,7 @@ public abstract class BaseServiceImpl<T extends BaseDomain> implements BaseServi
     @Override
     public void deleteByIds(List<String> ids) {
         getBaseDomainRepository().deleteInBatch(
-                ids.stream().map(e -> findById(e)).collect(Collectors.toList()));
+                ids.stream().map(this::findById).collect(Collectors.toList()));
     }
 
     @Override

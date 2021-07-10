@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/18
  */
 @Slf4j
 @RestControllerAdvice

@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 @Configuration
 public class AmireuxCacheConfig {

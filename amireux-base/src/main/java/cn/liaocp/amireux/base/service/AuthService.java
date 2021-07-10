@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 public interface AuthService {
 
@@ -50,14 +49,14 @@ public interface AuthService {
     /**
      * Find menu by current user
      *
-     * @return
+     * @return Permissions
      */
     List<Permission> findDynamicMenu();
 
     /**
      * jwt in request to get user information
      *
-     * @return
+     * @return User
      */
     User currentUser();
 }

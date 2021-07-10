@@ -6,7 +6,6 @@ import com.sun.istack.NotNull;
  * Amireux Cache interface
  *
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 public interface AmireuxCache {
 

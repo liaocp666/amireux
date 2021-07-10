@@ -14,7 +14,6 @@ import java.util.Collection;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/30
  */
 @Component
 public class JwtAccessDecisionManager implements AccessDecisionManager {

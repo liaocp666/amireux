@@ -10,10 +10,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.util.Objects;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/30
  */
 public class ResponseUtil {
 
@@ -24,7 +24,7 @@ public class ResponseUtil {
      */
     public static HttpServletResponse getResponse() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        return servletRequestAttributes.getResponse();
+        return Objects.requireNonNull(servletRequestAttributes).getResponse();
     }
 
     @SneakyThrows

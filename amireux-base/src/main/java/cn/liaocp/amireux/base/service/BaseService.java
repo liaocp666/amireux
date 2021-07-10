@@ -9,7 +9,6 @@ import java.util.List;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 public interface BaseService<T extends BaseDomain> {
 
@@ -39,7 +38,7 @@ public interface BaseService<T extends BaseDomain> {
      *
      * @param example  Query Criteria
      * @param pageable pageable
-     * @return
+     * @return Page data
      */
     Page<T> page(Example<T> example, Pageable pageable);
 

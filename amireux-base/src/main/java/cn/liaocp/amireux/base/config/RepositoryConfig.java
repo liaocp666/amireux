@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * @author Chunping.Liao
- * @date 2021/6/30
  */
 @Configuration
 @EnableJpaRepositories(basePackages = "cn.liaocp.amireux.*.repository",

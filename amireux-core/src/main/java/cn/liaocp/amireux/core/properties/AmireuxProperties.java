@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 @Data
 @Component

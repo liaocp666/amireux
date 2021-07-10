@@ -4,7 +4,6 @@ import cn.liaocp.amireux.base.domain.User;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 public interface UserRepository extends BaseRepository<User> {
 

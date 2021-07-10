@@ -8,11 +8,10 @@ import java.io.InputStream;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/30
  */
 public class CachedBodyServletInputStream extends ServletInputStream {
 
-    private InputStream cachedBodyInputStream;
+    private final InputStream cachedBodyInputStream;
 
     public CachedBodyServletInputStream(byte[] cachedBody) {
         this.cachedBodyInputStream = new ByteArrayInputStream(cachedBody);

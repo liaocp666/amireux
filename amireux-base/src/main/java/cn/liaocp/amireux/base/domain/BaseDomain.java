@@ -1,5 +1,6 @@
 package cn.liaocp.amireux.base.domain;
 
+import cn.liaocp.amireux.core.domain.AuditorDomain;
 import cn.liaocp.amireux.core.domain.IdDomain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -23,7 +24,6 @@ import java.time.Instant;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 @Setter
 @Getter
@@ -33,7 +33,7 @@ import java.time.Instant;
 @DynamicUpdate
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseDomain implements Serializable, IdDomain {
+public abstract class BaseDomain implements Serializable, IdDomain, AuditorDomain {
 
     private static final long serialVersionUID = 3166808065275155473L;
 
@@ -53,10 +53,9 @@ public abstract class BaseDomain implements Serializable, IdDomain {
     private Instant updateTime;
 
     @LastModifiedBy
-    @Column(nullable = false, length = 36, updatable = true)
+    @Column(nullable = false, length = 36)
     @JsonIgnore
     private String updateUser;
-
     @Transient
     @JsonIgnore
     private Integer pageNo;
@@ -65,6 +64,7 @@ public abstract class BaseDomain implements Serializable, IdDomain {
     @JsonIgnore
     private Integer pageSize = 10;
 
+    @SuppressWarnings("unused")
     public void setPageNo(Integer pageNo) {
         if (pageNo > 0) {
             this.pageNo = pageNo - 1;

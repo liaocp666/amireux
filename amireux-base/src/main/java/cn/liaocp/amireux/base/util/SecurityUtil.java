@@ -26,7 +26,6 @@ import java.util.UUID;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 @Slf4j
 public class SecurityUtil {
@@ -133,7 +132,6 @@ public class SecurityUtil {
      * GenerateSecret
      *
      * @return secret
-     * @throws NoSuchAlgorithmException
      */
     public static String generateSecret() {
         String result;
@@ -151,13 +149,12 @@ public class SecurityUtil {
     /**
      * jwt in request to get user information
      *
-     * @return
+     * @return UserDto
      */
     public static UserDto currentUser() {
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) SecurityContextHolder
                 .getContext().getAuthentication();
-        UserDto userDto = (UserDto) token.getPrincipal();
-        return userDto;
+        return (UserDto) token.getPrincipal();
     }
 
 }

@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 /**
  * @author Chunping.Liao
- * @date 2021/7/4
  */
 @Data
 @Entity

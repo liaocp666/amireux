@@ -21,7 +21,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * Used to store content that is not visible to the user
  *
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 @Slf4j
 public class AmireuxMemoryCache implements AmireuxCache {
@@ -36,19 +35,10 @@ public class AmireuxMemoryCache implements AmireuxCache {
      */
     private final Lock lock;
 
-    private final Timer timer;
-
-    private final long delay = 0L;
-
-    /**
-     * 1 minute
-     */
-    private final long period = 60 * 1000;
-
     public AmireuxMemoryCache() {
         lock = new ReentrantLock();
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new AmireuxMemoryCacheTask(), delay, period);
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new AmireuxMemoryCacheTask(), 0L, 60 * 1000);
     }
 
     @Override
@@ -100,12 +90,11 @@ public class AmireuxMemoryCache implements AmireuxCache {
      * MemoryCacheWrapper
      *
      * @author Chunping.Liao
-     * @date 2021/5/16
      */
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    private class MemoryCacheWrapper {
+    private static class MemoryCacheWrapper {
         /**
          * cache value
          */
@@ -121,9 +110,8 @@ public class AmireuxMemoryCache implements AmireuxCache {
      * Clear expired cache task
      *
      * @author Chunping.Liao
-     * @date 2021/5/16
      */
-    private class AmireuxMemoryCacheTask extends TimerTask {
+    private static class AmireuxMemoryCacheTask extends TimerTask {
 
         /**
          * Remove cache keys whose current time is greater than their expiration time

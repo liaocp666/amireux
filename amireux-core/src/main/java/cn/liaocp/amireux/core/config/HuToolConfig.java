@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/30
  */
 @Configuration
 @EnableSpringUtil

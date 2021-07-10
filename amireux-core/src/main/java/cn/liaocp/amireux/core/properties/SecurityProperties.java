@@ -10,7 +10,6 @@ import java.util.Set;
  * Load application.yml file configuration
  *
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 @Data
 @Component

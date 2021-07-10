@@ -6,7 +6,6 @@ import cn.liaocp.amireux.base.vo.UserAuthRole;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 public interface UserService extends BaseService<User> {
 

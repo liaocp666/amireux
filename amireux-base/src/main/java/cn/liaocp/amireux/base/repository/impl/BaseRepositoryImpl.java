@@ -9,15 +9,18 @@ import javax.persistence.EntityManager;
 
 /**
  * @author Chunping.Liao
- * @date 2021/6/22
  */
 public class BaseRepositoryImpl<T extends BaseDomain> extends SimpleJpaRepository<T, String> implements BaseRepository<T> {
 
     private final EntityManager entityManager;
 
-    public BaseRepositoryImpl(JpaEntityInformation<T, String> entityInformation, EntityManager entityManager) {
+    BaseRepositoryImpl(JpaEntityInformation entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.entityManager = entityManager;
     }
 
+    @Override
+    public <S extends T> S save(S entity) {
+        return super.save(entity);
+    }
 }

@@ -12,7 +12,6 @@ import javax.validation.Valid;
 
 /**
  * @author Chunping.Liao
- * @date 2021/5/16
  */
 @RestController
 @RequiredArgsConstructor
