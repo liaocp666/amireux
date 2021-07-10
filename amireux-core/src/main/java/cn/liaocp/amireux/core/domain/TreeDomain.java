@@ -7,16 +7,16 @@ import java.util.List;
  *
  * @author Chunping.Liao
  */
-public interface TreeDomain<T extends TreeDomain> extends IdDomain {
+public interface TreeDomain<T> extends IdDomain {
 
-    String ROOT_NODE = "0";
+	String ROOT_NODE = "0";
 
-    void setParentId(String parentId);
+	void setParentId(String parentId);
 
-    String getParentId();
+	String getParentId();
 
-    List<T> getChildren();
+	List<T> getChildren();
 
-    void setChildren(List<T> children);
+	void setChildren(List<T> children);
 
 }

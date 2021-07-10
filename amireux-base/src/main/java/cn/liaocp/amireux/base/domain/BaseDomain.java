@@ -10,15 +10,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -36,6 +34,11 @@ import java.time.Instant;
 public abstract class BaseDomain implements Serializable, IdDomain, AuditorDomain {
 
     private static final long serialVersionUID = 3166808065275155473L;
+
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private String id;
 
     @Column(nullable = false, length = 36, updatable = false)
     @CreatedBy

@@ -4,7 +4,6 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.liaocp.amireux.core.domain.TreeDomain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
@@ -19,14 +18,9 @@ import java.util.List;
 @Entity
 @Table(name = "system_permission")
 @EqualsAndHashCode(callSuper = true)
-public class Permission extends BaseDomain implements TreeDomain<Permission> {
+public class Permission extends BaseTreeDomain<Permission> implements TreeDomain<Permission> {
 
     private static final long serialVersionUID = -5404991409857645267L;
-
-    @Id
-    @GeneratedValue(generator = "permissionId")
-    @GenericGenerator(name = "permissionId", strategy = "uuid2")
-    private String id;
 
     @NotBlank(message = "Permission Title must not be blank")
     private String title;
@@ -64,9 +58,6 @@ public class Permission extends BaseDomain implements TreeDomain<Permission> {
     @Transient
     private List<Role> roles = new ArrayList<>();
 
-    @Transient
-    private List<Permission> children;
-
     @PrePersist
     void PrePersist() {
         if (ObjectUtils.isEmpty(getEnable())) {
@@ -76,4 +67,5 @@ public class Permission extends BaseDomain implements TreeDomain<Permission> {
             setSortNum(1);
         }
     }
+
 }

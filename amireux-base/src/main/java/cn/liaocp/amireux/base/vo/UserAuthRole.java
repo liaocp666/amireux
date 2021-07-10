@@ -13,7 +13,9 @@ import java.util.List;
 @Data
 public class UserAuthRole implements Serializable {
 
-    @NotBlank(message = "未找到用户")
+	private static final long serialVersionUID = 7691598307418407384L;
+
+	@NotBlank(message = "未找到用户")
     private String userId;
 
     @NotNull(message = "请选择角色")

@@ -1,4 +1,4 @@
-package cn.liaocp.amireux.core.util;
+package cn.liaocp.amireux.base.util;
 
 import cn.liaocp.amireux.core.domain.TreeDomain;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +19,7 @@ public class TreeUtil {
      * @param <T> The implementation classes of {@link TreeDomain}
      * @return tree structure data
      */
-    public static <T extends TreeDomain> List<T> tree(List<T> all) {
+	public static <T extends TreeDomain<T>> List<T> tree(List<T> all) {
         List<T> parentPermission = all.stream()
                 .filter(e -> StringUtils.equals(TreeDomain.ROOT_NODE, e.getParentId()))
                 .map(e -> childrenTree(e, all))
@@ -35,8 +35,8 @@ public class TreeUtil {
      * @param <T>    The implementation classes of {@link TreeDomain}
      * @return Parent with collection of children
      */
-    public static <T extends TreeDomain> T childrenTree(T parent, List<T> all) {
-        List<TreeDomain> children = new LinkedList<>();
+    public static <T extends TreeDomain<T>> T childrenTree(T parent, List<T> all) {
+    	List<T> children = new LinkedList<>();
         all.forEach(e -> {
             if (parent.getId().equals(e.getParentId())) {
                 childrenTree(e, all);
@@ -44,7 +44,7 @@ public class TreeUtil {
             }
         });
         if (!children.isEmpty()) {
-            parent.setChildren(children);
+            parent.setChildren((List<T>) children);
         }
         return parent;
     }

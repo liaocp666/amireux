@@ -13,7 +13,9 @@ import java.util.List;
 @Data
 public class RoleAuthPermission implements Serializable {
 
-    @NotBlank(message = "Role must not be blank")
+	private static final long serialVersionUID = 2764566630328733219L;
+
+	@NotBlank(message = "Role must not be blank")
     private String roleId;
 
     @NotNull(message = "Permissions must not be blank")

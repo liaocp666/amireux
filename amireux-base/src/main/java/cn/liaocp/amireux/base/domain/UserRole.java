@@ -2,7 +2,6 @@ package cn.liaocp.amireux.base.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -15,12 +14,9 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 public class UserRole extends BaseDomain {
 
-    @Id
-    @GeneratedValue(generator = "permissionId")
-    @GenericGenerator(name = "permissionId", strategy = "uuid2")
-    private String id;
+	private static final long serialVersionUID = -6471352070109296800L;
 
-    @Column(nullable = false)
+	@Column(nullable = false)
     private String userId;
 
     @Column(nullable = false)

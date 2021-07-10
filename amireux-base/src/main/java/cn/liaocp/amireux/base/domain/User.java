@@ -2,7 +2,6 @@ package cn.liaocp.amireux.base.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,11 +18,6 @@ import java.util.List;
 public class User extends BaseDomain {
 
     private static final long serialVersionUID = -2782201728914530440L;
-
-    @Id
-    @GeneratedValue(generator = "userId")
-    @GenericGenerator(name = "userId", strategy = "uuid2")
-    private String id;
 
     private String avatar;
 
