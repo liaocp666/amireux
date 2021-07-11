@@ -53,7 +53,7 @@ public class UserController {
 
     @GetMapping("/detail")
     public RestResult detail(@RequestParam("id") String id) {
-        User user = userService.findById(id);
+        User user = userService.detail(id);
         user.setPassword(StringUtils.EMPTY);
         return RestResult.success(user);
     }

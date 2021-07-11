@@ -27,7 +27,9 @@ public interface BaseService<T extends BaseDomain> {
      */
     List<T> findAll();
 
-    T findById(String id);
+    List<T> findAllById(List<String> ids);
+
+    T findAllById(String id);
 
     void deleteById(String id);
 

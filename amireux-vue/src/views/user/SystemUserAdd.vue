@@ -91,11 +91,11 @@ export default {
       this.confirmLoading = false
     },
     handleOk () {
-      this.confirmLoading = true
       this.$refs.form.validate(valid => {
         if (!valid) {
           return false
         }
+        this.confirmLoading = true
         adduser(this.form).then(resp => {
           if (resp.code === 2000) {
             this.visible = false

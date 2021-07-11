@@ -77,12 +77,11 @@ export default {
       this.form.enable = true
     },
     handleOk () {
-      this.confirmLoading = true
       this.$refs.form.validate(valid => {
-        debugger
         if (!valid) {
           return false
         }
+        this.confirmLoading = true
         addRole(this.form).then(resp => {
           if (resp.code === 2000) {
             this.preData(this.form.parentId)

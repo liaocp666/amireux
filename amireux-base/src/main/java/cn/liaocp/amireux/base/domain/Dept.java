@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import cn.liaocp.amireux.core.domain.TreeDomain;
 
 /**
  * 部门表
@@ -15,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table(name = "system_dept")
 @EqualsAndHashCode(callSuper=false)
-public class Dept extends BaseDomain {
+public class Dept extends BaseTreeDomain<Dept> implements TreeDomain<Dept> {
 
 	private static final long serialVersionUID = 1780331509303964178L;
 
@@ -26,16 +29,21 @@ public class Dept extends BaseDomain {
     /**
      * 部门标识
      */
+    @NotBlank(message = "部门标识不能为空")
+    @Column(nullable = false)
     private String keyword;
 
     /**
      * 部门排序
      */
-    private String sortNum;
+    @NotNull(message = "序号不能为空")
+    @Column(nullable = false)
+    private Integer sortNum;
 
     /**
      * 部门状态
      */
+    @NotNull(message = "部门状态不能为空")
     @Column(name = "is_enable", columnDefinition = "tinyint", length = 1, nullable = false)
     private Boolean enable;
 

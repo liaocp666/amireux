@@ -3,8 +3,8 @@ package cn.liaocp.amireux.core.exception.handler;
 import cn.liaocp.amireux.core.domain.RestResult;
 import cn.liaocp.amireux.core.enums.RestResultEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -30,10 +30,10 @@ public class GlobalExceptionHandler {
         return RestResult.fail(e.getMessage());
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class})
-    public RestResult methodArgumentNotValidException(MethodArgumentNotValidException e) {
+    @ExceptionHandler({BindException.class})
+    public RestResult methodArgumentNotValidException(BindException e) {
         List<String> errors = e.getBindingResult().getFieldErrors().stream().map(FieldError::getDefaultMessage).collect(Collectors.toList());
-        return RestResult.fail(String.join(",", errors));
+        return RestResult.fail(String.join("、", errors));
     }
 
 }

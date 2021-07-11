@@ -2,11 +2,14 @@ package cn.liaocp.amireux.base.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Chunping.Liao
@@ -47,4 +50,8 @@ public class User extends BaseDomain {
 
     @Transient
     private List<Role> roles = new ArrayList<>();
+
+    @Transient
+    private List<Dept> depts = new ArrayList<>();
+
 }

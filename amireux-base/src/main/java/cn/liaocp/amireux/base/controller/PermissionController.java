@@ -35,7 +35,7 @@ public class PermissionController {
 
     @GetMapping("/detail")
     public RestResult detail(@RequestParam(value = "id") String id) {
-        return RestResult.success(permissionService.findById(id));
+        return RestResult.success(permissionService.findAllById(id));
     }
 
     @PostMapping("/delete")

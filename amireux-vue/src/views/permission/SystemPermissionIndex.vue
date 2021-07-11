@@ -34,21 +34,19 @@
           </a-tag>
         </template>
         <template slot="action" slot-scope="record">
-          <a-button-group size="default">
-            <a @click="$refs.SystemPermissionAdd.preData(record.id)">添加</a>
-            <a-divider type="vertical" />
-            <a @click="$refs.SystemPermissionEdit.preData(record.id)">编辑</a>
-            <a-divider type="vertical" />
-            <a-popconfirm
-              title="确定删除吗?"
-              ok-text="确定"
-              cancel-text="取消"
-              @cancel="$message.warn('取消删除')"
-              @confirm="doDelete(record)"
-            >
-              <a>删除</a>
-            </a-popconfirm>
-          </a-button-group>
+          <a @click="$refs.SystemPermissionAdd.preData(record.id)">添加</a>
+          <a-divider type="vertical" />
+          <a @click="$refs.SystemPermissionEdit.preData(record.id)">编辑</a>
+          <a-divider type="vertical" />
+          <a-popconfirm
+            title="确定删除吗?"
+            ok-text="确定"
+            cancel-text="取消"
+            @cancel="$message.warn('取消删除')"
+            @confirm="doDelete(record)"
+          >
+            <a>删除</a>
+          </a-popconfirm>
         </template>
       </s-table>
     </a-card>

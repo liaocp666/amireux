@@ -11,7 +11,7 @@ import cn.liaocp.amireux.base.repository.BaseRepository;
 import cn.liaocp.amireux.base.repository.UserRepository;
 import cn.liaocp.amireux.base.service.*;
 import cn.liaocp.amireux.base.util.SecurityUtil;
-import cn.liaocp.amireux.base.util.TreeUtil;
+import cn.liaocp.amireux.core.util.TreeUtil;
 import cn.liaocp.amireux.base.vo.UserAuthRole;
 import cn.liaocp.amireux.core.cache.AmireuxCache;
 import cn.liaocp.amireux.core.enums.RestResultEnum;
@@ -56,6 +56,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     private final RoleService roleService;
 
     private final UserRoleService userRoleService;
+
+    private final DeptService deptService;
 
     private final static Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -155,7 +157,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     }
 
     @Override
-    public User findById(String id) {
+    public User findAllById(String id) {
         return userRepository.findById(id).orElse(null);
     }
 
@@ -211,5 +213,12 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     public void deleteByIds(List<String> ids) {
         super.deleteByIds(ids);
         userRoleService.deleteByUserIds(ids);
+    }
+
+    @Override
+    public User detail(String id) {
+        User user = this.findAllById(id);
+        user.setDepts(deptService.findByUserId(id));
+        return user;
     }
 }

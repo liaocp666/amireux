@@ -19,6 +19,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Chunping.Liao
@@ -61,7 +63,7 @@ public abstract class BaseDomain implements Serializable, IdDomain, AuditorDomai
     private String updateUser;
     @Transient
     @JsonIgnore
-    private Integer pageNo;
+    private Integer pageNo = 0;
 
     @Transient
     @JsonIgnore
@@ -74,5 +76,16 @@ public abstract class BaseDomain implements Serializable, IdDomain, AuditorDomai
             return;
         }
         this.pageNo = pageNo;
+    }
+
+    @Transient
+    private Map<String, Object> expand = new HashMap<>();
+
+    protected void put(String key, Object value) {
+        expand.put(key, value);
+    }
+
+    protected Object get(String key) {
+        return expand.get(key);
     }
 }

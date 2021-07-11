@@ -31,7 +31,7 @@ public abstract class BaseServiceImpl<T extends BaseDomain> implements BaseServi
     @Transactional(rollbackFor = Exception.class)
     public T save(T domain) {
         if (StringUtils.isNotBlank(domain.getId())) {
-            T dbDomain = findById(domain.getId());
+            T dbDomain = findAllById(domain.getId());
             BeanUtil.copyProperties(domain, dbDomain, CopyOptions.create().setIgnoreNullValue(true));
             domain = dbDomain;
         }
@@ -44,8 +44,13 @@ public abstract class BaseServiceImpl<T extends BaseDomain> implements BaseServi
         return getBaseDomainRepository().findAll(Sort.by(Sort.Direction.DESC, "createTime"));
     }
 
-    public T findById(String id) {
+    public T findAllById(String id) {
         return getBaseDomainRepository().findById(id).orElse(null);
+    }
+
+    @Override
+    public List<T> findAllById(List<String> ids) {
+        return getBaseDomainRepository().findAllById(ids);
     }
 
     @Override
@@ -57,7 +62,7 @@ public abstract class BaseServiceImpl<T extends BaseDomain> implements BaseServi
     @Override
     public void deleteByIds(List<String> ids) {
         getBaseDomainRepository().deleteInBatch(
-                ids.stream().map(this::findById).collect(Collectors.toList()));
+                ids.stream().map(this::findAllById).collect(Collectors.toList()));
     }
 
     @Override

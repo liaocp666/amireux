@@ -76,8 +76,6 @@
               </a-tag>
             </template>
             <template slot="action" slot-scope="record">
-              <a @click="$refs.SystemUserAuth.preData(record.id)">授权</a>
-              <a-divider type="vertical" />
               <a @click="$refs.SystemUserEdit.preData(record.id)">编辑</a>
               <a-divider type="vertical" />
               <a-popconfirm
@@ -89,6 +87,19 @@
               >
                 <a>删除</a>
               </a-popconfirm>
+              <a-divider type="vertical" />
+              <a-dropdown>
+                <a class="ant-dropdown-link" @click.prevent>
+                  更多<a-icon :type="expand ? 'up' : 'down'" />
+                </a>
+                <template #overlay>
+                  <a-menu>
+                    <a-menu-item>
+                      <a @click="$refs.SystemUserAuth.preData(record.id)">授权角色</a>
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
             </template>
           </s-table>
         </a-col>

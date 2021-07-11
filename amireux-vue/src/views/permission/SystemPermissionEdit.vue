@@ -29,7 +29,7 @@
             </a-form-model-item>
           </a-col>
           <a-col span="12">
-            <a-form-model-item label="名称" prop="name">
+            <a-form-model-item label="名称" prop="title">
               <a-input v-model="form.title" placeholder="请输入权限名称" />
             </a-form-model-item>
           </a-col>
@@ -217,11 +217,15 @@ export default {
       })
     },
     handleOk () {
-      this.confirmLoading = true
       this.$refs.form.validate(valid => {
         if (!valid) {
           return false
         }
+        if (this.form.id === this.form.parentId) {
+          this.$message.error('上级节点不能为 ' + this.form.title)
+          return
+        }
+        this.confirmLoading = true
         editPermission(this.form).then(resp => {
           if (resp.code === 2000) {
             this.visible = false

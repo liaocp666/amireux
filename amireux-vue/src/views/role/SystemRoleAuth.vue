@@ -46,7 +46,7 @@ export default {
       this.visible = true
       this.roleId = roleId
       this.spinning = true
-      getTree().then(resp => {
+      getTree({ pageNo: 0, pageSize: 9999 }).then(resp => {
         this.treeData = resp
         this.loadData()
       })

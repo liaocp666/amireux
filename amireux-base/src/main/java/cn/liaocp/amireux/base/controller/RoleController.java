@@ -44,7 +44,7 @@ public class RoleController {
 
     @GetMapping("/detail")
     public RestResult detail(@RequestParam(value = "id") String id) {
-        return RestResult.success(roleService.findById(id));
+        return RestResult.success(roleService.findAllById(id));
     }
 
     @PostMapping("/delete")

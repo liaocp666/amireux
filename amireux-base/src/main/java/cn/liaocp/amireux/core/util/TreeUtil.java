@@ -1,4 +1,4 @@
-package cn.liaocp.amireux.base.util;
+package cn.liaocp.amireux.core.util;
 
 import cn.liaocp.amireux.core.domain.TreeDomain;
 import org.apache.commons.lang3.StringUtils;

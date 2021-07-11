@@ -30,7 +30,7 @@
             </a-form-model-item>
           </a-col>
           <a-col span="12">
-            <a-form-model-item label="名称" prop="name">
+            <a-form-model-item label="名称" prop="title">
               <a-input v-model="form.title" placeholder="请输入权限名称" />
             </a-form-model-item>
           </a-col>
@@ -112,7 +112,7 @@
           </a-col>
           <a-col span="12">
             <a-form-model-item label="序号" prop="sortNum">
-              <a-input-number :style="{ width: '100%' }" v-model="form.sortNum" placeholder="请输入序号"></a-input-number>
+              <a-input-number :min="1" :max="99" :style="{ width: '100%' }" v-model="form.sortNum" placeholder="请输入序号"></a-input-number>
             </a-form-model-item>
           </a-col>
           <a-col span="12">
@@ -158,7 +158,7 @@ export default {
       wrapperCol: { span: 16 },
       spinning: false,
       treeData: [{
-        title: '根权限',
+        title: '/',
         value: '0',
         key: '0',
         children: []
@@ -219,11 +219,11 @@ export default {
       })
     },
     handleOk () {
-      this.confirmLoading = true
       this.$refs.form.validate(valid => {
         if (!valid) {
           return false
         }
+        this.confirmLoading = true
         addPermission(this.form).then(resp => {
           if (resp.code === 2000) {
             this.preData(this.form.parentId)
